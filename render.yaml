@@ -1,0 +1,32 @@
+# One-click hosting on Render (Dashboard → New → Blueprint → pick this repository).
+# Keys are entered in Render's dashboard, never committed. ACCESS_TOKEN is generated
+# by Render: open the service's Environment tab to read it, and share it only with reviewers.
+services:
+  - type: web
+    name: lectern
+    runtime: docker
+    plan: starter            # a persistent disk needs a paid instance; see docs/DEPLOYMENT.md for the free option
+    healthCheckPath: /api/health
+    disk:
+      name: lectern-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: ACCESS_TOKEN
+        generateValue: true
+      - key: BEHIND_PROXY
+        value: "true"
+      - key: LESSONS_PER_HOUR
+        value: "10"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: QC_PROVIDER
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false

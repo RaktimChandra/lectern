@@ -1,0 +1,12 @@
+# Local or single-server hosting: `docker compose up --build`, then open http://localhost:8000
+services:
+  lectern:
+    build: .
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - lectern-data:/app/data
+    restart: unless-stopped
+volumes:
+  lectern-data:
