@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lectern"
+version = "1.0.0"
+description = "Research-grounded lesson studio: cited 45-minute lessons with two independent QC layers."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Raktim Chandra" }]
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "httpx>=0.27",
+  "pydantic>=2.7",
+  "pydantic-settings>=2.3",
+  "trafilatura>=1.12",
+  "rank-bm25>=0.2.2",
+  "rapidfuzz>=3.9",
+  "youtube-transcript-api>=1.0",
+  "markdown-it-py>=3.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "respx>=0.21"]
+
+[tool.setuptools.packages.find]
+include = ["lectern*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
