@@ -116,3 +116,25 @@ async def test_export_formats(client):
             "qc-teaching-report.md", "qc-teaching-report.json", "sources.json", "README.txt"} <= names
     bad = await client.get(f"/api/lessons/{lid}/export?format=pdf")
     assert bad.status_code == 400
+
+
+async def test_preflight_reports_each_service(settings, store):
+    llm = ScriptedLLM({**http_replies(), "connection check": {"ok": True, "word": "ready"}})
+    app = create_app(settings, models=lambda: (llm, llm), toolkit=make_toolkit, store=store)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
+        data = (await c.post("/api/preflight")).json()
+    names = [row["name"] for row in data["checks"]]
+    assert data["ok"] is True
+    assert names[0] == "Writer model" and "Reviewer model" not in names  # same model: checked once
+    assert {"Web search", "YouTube", "Wikipedia"} <= set(names)
+    assert all("ms" in row for row in data["checks"])
+
+
+async def test_preflight_names_the_broken_service(settings, store):
+    llm = ScriptedLLM(http_replies())  # no reply for the probe: the model "fails"
+    app = create_app(settings, models=lambda: (llm, llm), toolkit=lambda: make_toolkit(youtube=None), store=store)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
+        data = (await c.post("/api/preflight")).json()
+    rows = {row["name"]: row for row in data["checks"]}
+    assert data["ok"] is False and rows["Writer model"]["ok"] is False
+    assert "YOUTUBE_API_KEY" in rows["YouTube"]["detail"]

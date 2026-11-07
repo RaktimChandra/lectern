@@ -12,6 +12,8 @@ from pydantic import BaseModel, Field, field_validator
 
 from . import exporters
 from .llm.base import LLMError
+from .llm.providers import resolved_model
+from .preflight import run_preflight
 from .models import STEP_LABELS, Lesson, LessonRequest, StepName
 from .pipeline import fixes
 from .pipeline.context import StepContext, StepError
@@ -88,7 +90,25 @@ def ensure_idle(request: Request, lesson: Lesson) -> None:
 
 @router.get("/health")
 def health(request: Request) -> dict:
-    return services(request).settings.public_status()
+    status = services(request).settings.public_status()
+    # Show the model actually in use if discovery replaced a retired default.
+    for role in ("writer", "reviewer"):
+        if status.get(role):
+            status[role]["model"] = resolved_model(status[role]["provider"], status[role]["model"])
+    return status
+
+
+@router.post("/preflight")
+async def preflight(request: Request) -> dict:
+    """Send one tiny real request to each configured service and report what works."""
+    svc = services(request)
+    try:
+        writer, reviewer = svc.models()
+    except LLMError as exc:
+        return {"ok": False, "checks": [{"name": "Writer model", "role": "required", "ok": False, "ms": 0, "detail": str(exc)}]}
+    checks = await run_preflight(writer, reviewer, svc.toolkit())
+    ok = all(c["ok"] for c in checks if c["role"] == "required")
+    return {"ok": ok, "checks": checks}
 
 
 @router.get("/lessons")

@@ -175,6 +175,15 @@ export interface Health {
   independent_reviewer: boolean;
   research: { web_search: string | null; wikipedia: boolean; youtube: boolean; books: string };
   lesson_minutes: number;
+  access_protected?: boolean;
+}
+
+export interface PreflightCheck {
+  name: string;
+  role: "required" | "recommended" | "keyless";
+  ok: boolean;
+  detail: string;
+  ms: number;
 }
 
 export interface FixPreview {

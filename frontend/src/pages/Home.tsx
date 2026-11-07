@@ -2,8 +2,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api, ApiError } from "../api";
-import type { Health, LessonRequest } from "../types";
+import type { LessonRequest } from "../types";
 import { BrandMark, timeAgo } from "../ui";
+import ConnectionCheck from "../components/ConnectionCheck";
 
 const SAMPLE = {
   title: "HTTP Requests and Responses",
@@ -127,24 +128,8 @@ function NewLessonForm() {
           </button>
         )}
       </div>
-      {health.data && <ProviderStatus health={health.data} />}
+      {health.data && <ConnectionCheck health={health.data} />}
     </form>
-  );
-}
-
-function ProviderStatus({ health }: { health: Health }) {
-  const r = health.research;
-  const item = (label: string, value: string | null | false) =>
-    value ? <span>{label}: {value}. </span> : <span className="missing">{label}: not set. </span>;
-  return (
-    <p className="providers">
-      {item("Writer", health.writer && `${health.writer.model}`)}
-      {item("Reviewer", health.reviewer && `${health.reviewer.model}${health.independent_reviewer ? " (independent)" : " (same model as writer)"}`)}
-      <br />
-      {item("Web search", r.web_search && r.web_search[0].toUpperCase() + r.web_search.slice(1))}
-      {item("Videos", r.youtube && "YouTube")}
-      <span>Books: Google Books and Open Library. Encyclopedia: Wikipedia.</span>
-    </p>
   );
 }
 
