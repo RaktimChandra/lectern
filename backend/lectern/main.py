@@ -25,6 +25,10 @@ from . import security
 from .store import LessonStore
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+# httpx logs every request URL at INFO, and some APIs (YouTube, Google Books) take
+# the key as a query parameter; keep keys out of the console and any log files.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 FRONTEND_DIST = ROOT_DIR / "frontend" / "dist"
 
