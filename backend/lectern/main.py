@@ -21,6 +21,7 @@ from .llm.base import LLMClient
 from .llm.providers import build_client
 from .pipeline.runner import Runner, recover_interrupted
 from .research.collector import ResearchToolkit
+from . import security
 from .store import LessonStore
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -65,9 +66,11 @@ def create_app(settings: Settings | None = None, *, models=None, toolkit=None, s
             logging.getLogger("lectern").info("Marked %d interrupted lesson(s) as failed so they can be retried.", recovered)
         yield
 
-    app = FastAPI(title="Lectern", version="1.0.0", lifespan=lifespan)
+    app = FastAPI(title="Lectern", version="1.1.0", lifespan=lifespan)
     app.state.services = Services(settings, store, broker, runner, models, toolkit)
-    app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=["*"], allow_headers=["*"])
+    app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=["*"], allow_headers=["*"],
+                       allow_credentials=True)
+    security.install(app, settings)
     app.include_router(router)
 
     @app.exception_handler(RequestValidationError)

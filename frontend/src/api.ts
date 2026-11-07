@@ -1,4 +1,4 @@
-import type { FixPreview, Health, Lesson, LessonRequest, LessonSummary, StepName } from "./types";
+import type { FixPreview, Health, Lesson, LessonRequest, LessonSummary, PreflightCheck, StepName } from "./types";
 
 export class ApiError extends Error {
   constructor(message: string, public status: number) {
@@ -11,10 +11,15 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   try {
     response = await fetch(`/api${path}`, {
       ...init,
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
     });
   } catch {
     throw new ApiError("Lectern's server is not reachable. Check that it is running.", 0);
+  }
+  if (response.status === 401 && path !== "/auth") {
+    // A hosted Lectern is protected by a passphrase; the app shows the unlock screen.
+    window.dispatchEvent(new Event("lectern:locked"));
   }
   if (!response.ok) {
     let message = `Request failed (${response.status}).`;
@@ -36,6 +41,8 @@ const put = <T>(path: string, body: unknown) => request<T>(path, { method: "PUT"
 
 export const api = {
   health: () => request<Health>("/health"),
+  preflight: () => post<{ ok: boolean; checks: PreflightCheck[] }>("/preflight"),
+  unlock: (token: string) => post<{ ok: boolean }>("/auth", { token }),
   lessons: () => request<LessonSummary[]>("/lessons"),
   lesson: (id: string) => request<Lesson>(`/lessons/${id}`),
   create: (body: LessonRequest) => post<Lesson>("/lessons", body),

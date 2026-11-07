@@ -6,6 +6,7 @@ import "./styles.css";
 import Home from "./pages/Home";
 import LessonPage from "./pages/LessonPage";
 import { ToastProvider } from "./ui";
+import AccessGate from "./components/AccessGate";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, retry: 1 } },
@@ -15,12 +16,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/lessons/:id" element={<LessonPage />} />
-          </Routes>
-        </BrowserRouter>
+        <AccessGate>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/lessons/:id" element={<LessonPage />} />
+            </Routes>
+          </BrowserRouter>
+        </AccessGate>
       </ToastProvider>
     </QueryClientProvider>
   </React.StrictMode>,
