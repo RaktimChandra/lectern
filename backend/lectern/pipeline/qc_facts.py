@@ -139,7 +139,8 @@ def verify_claim(ctx: StepContext, number: int, claim: ClaimOut, judgement: Clai
                           verdict="unsupported", evidence=[], note="The reviewer did not return a judgement for this claim.")
     evidence: list[Evidence] = []
     for item in judgement.evidence:
-        source_id = item.source_id.split(".")[0].strip()  # accept passage ids such as S3.p2
+        found_id = re.search(r"S\d+", item.source_id, re.IGNORECASE)  # accept S3.p2, [S3], s3
+        source_id = found_id.group(0).upper() if found_id else item.source_id.strip()
         source = ctx.lesson.source(source_id)
         match, score = match_quote(item.quote, source.text or source.snippet) if source else ("not_found", 0.0)
         evidence.append(Evidence(source_id=source_id, quote=item.quote, match=match, match_score=score))

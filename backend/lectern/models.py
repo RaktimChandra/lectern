@@ -13,9 +13,64 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Literal
+import json
+import typing
+from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from annotated_types import MaxLen
+from pydantic import BaseModel, Field, field_validator, model_validator
+
+
+_ALIASES = {"analyse": "analyze", "critical": "high", "major": "high", "moderate": "medium", "minor": "low",
+            "objective_alignment": "alignment", "structure_and_flow": "structure", "examples_and_practice": "examples",
+            "accuracy_of_level": "level", "timing": "pacing"}
+
+
+def _literal_values(annotation) -> tuple:
+    if typing.get_origin(annotation) is Literal:
+        return typing.get_args(annotation)
+    for arg in typing.get_args(annotation):
+        if typing.get_origin(arg) is Literal:
+            return typing.get_args(arg)
+    return ()
+
+
+class LLMOut(BaseModel):
+    """Base for model replies: tolerate the small deviations real models make.
+
+    null for a field with a default means "use the default"; enum strings are matched
+    case- and spacing-insensitively; over-long lists are truncated instead of failing.
+    """
+
+    @model_validator(mode="before")
+    @classmethod
+    def _lenient(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        out = {}
+        for key, value in data.items():
+            info = cls.model_fields.get(key)
+            if info is None:
+                out[key] = value
+                continue
+            if value is None and not info.is_required() and info.get_default(call_default_factory=True) is not None:
+                continue  # null -> default
+            if isinstance(value, str) and value.lstrip()[:1] in ("[", "{") and typing.get_origin(info.annotation) is list:
+                try:
+                    value = json.loads(value)
+                except ValueError:
+                    pass
+            allowed = _literal_values(info.annotation)
+            if allowed and isinstance(value, str) and value not in allowed:
+                norm = value.strip().lower().replace(" ", "_").replace("-", "_")
+                norm = _ALIASES.get(norm, norm)
+                value = norm if norm in allowed else value
+            if isinstance(value, list):
+                cap = next((m.max_length for m in info.metadata if isinstance(m, MaxLen)), None)
+                if cap is not None:
+                    value = value[:cap]
+            out[key] = value
+        return out
 
 
 def utcnow() -> datetime:
@@ -80,7 +135,7 @@ class LessonRequest(BaseModel):
 BloomLevel = Literal["remember", "understand", "apply", "analyze", "evaluate", "create"]
 
 
-class ObjectiveAtom(BaseModel):
+class ObjectiveAtom(LLMOut):
     id: str = Field(description="Stable id such as O1, O2")
     statement: str = Field(description="One measurable thing the learner must be able to do")
     verb: str = Field(description="The action verb, e.g. explain, distinguish")
@@ -88,7 +143,7 @@ class ObjectiveAtom(BaseModel):
     key_terms: list[str] = Field(default_factory=list)
 
 
-class ObjectiveAnalysisOut(BaseModel):
+class ObjectiveAnalysisOut(LLMOut):
     atoms: list[ObjectiveAtom] = Field(min_length=1, max_length=8)
     prerequisites: list[str] = Field(default_factory=list)
     misconceptions: list[str] = Field(
@@ -102,13 +157,13 @@ class ObjectiveAnalysisOut(BaseModel):
 # ---------------------------------------------------------------------------
 
 
-class ResearchQuery(BaseModel):
+class ResearchQuery(LLMOut):
     query: str
     purpose: str
     atom_ids: list[str] = Field(default_factory=list)
 
 
-class ResearchPlanOut(BaseModel):
+class ResearchPlanOut(LLMOut):
     web_queries: list[ResearchQuery] = Field(min_length=1, max_length=8)
     video_queries: list[str] = Field(min_length=1, max_length=4)
     book_queries: list[str] = Field(min_length=1, max_length=3)
@@ -181,7 +236,7 @@ class ResearchLogEntry(BaseModel):
 SectionKind = Literal["hook", "concept", "example", "activity", "check", "recap"]
 
 
-class OutlineSection(BaseModel):
+class OutlineSection(LLMOut):
     kind: SectionKind
     title: str
     minutes: int = Field(ge=1, le=45)
@@ -189,17 +244,17 @@ class OutlineSection(BaseModel):
     plan: str = Field(description="What this section does, in one or two sentences")
 
 
-class OutlineOut(BaseModel):
+class OutlineOut(LLMOut):
     sections: list[OutlineSection] = Field(min_length=4, max_length=10)
 
 
-class SectionDraft(BaseModel):
+class SectionDraft(LLMOut):
     index: int = Field(description="0-based index of the outline section this drafts")
     body_md: str = Field(description="Markdown body. Cite sources inline as [S1], [S2].")
     instructor_notes: str = Field(default="", description="Facilitation tips for instructor-led delivery")
 
 
-class KnowledgeCheckOut(BaseModel):
+class KnowledgeCheckOut(LLMOut):
     atom_ids: list[str] = Field(min_length=1)
     question: str
     options: list[str] = Field(min_length=3, max_length=5)
@@ -216,12 +271,12 @@ class KnowledgeCheckOut(BaseModel):
         return value
 
 
-class VideoPickOut(BaseModel):
+class VideoPickOut(LLMOut):
     source_id: str
     why: str = Field(description="Why this video helps, in one sentence")
 
 
-class DraftOut(BaseModel):
+class DraftOut(LLMOut):
     summary: str = Field(description="Two-sentence lesson overview for the learner")
     sections: list[SectionDraft]
     knowledge_checks: list[KnowledgeCheckOut] = Field(min_length=2, max_length=8)
@@ -316,23 +371,23 @@ ClaimVerdict = Literal["supported", "partially_supported", "unsupported", "contr
 QuoteMatch = Literal["exact", "close", "not_found", "no_text"]
 
 
-class ClaimOut(BaseModel):
+class ClaimOut(LLMOut):
     section_index: int
     text: str = Field(description="The claim, quoted or closely paraphrased from the lesson")
     cited_source_ids: list[str] = Field(default_factory=list)
     checkable: bool = Field(default=True, description="False for opinions, instructions or analogies")
 
 
-class ClaimsOut(BaseModel):
+class ClaimsOut(LLMOut):
     claims: list[ClaimOut] = Field(max_length=40)
 
 
-class EvidenceOut(BaseModel):
+class EvidenceOut(LLMOut):
     source_id: str
     quote: str = Field(description="Verbatim sentence copied from the passage")
 
 
-class ClaimJudgementOut(BaseModel):
+class ClaimJudgementOut(LLMOut):
     claim_index: int
     verdict: ClaimVerdict
     evidence: list[EvidenceOut] = Field(default_factory=list, max_length=3)
@@ -340,7 +395,7 @@ class ClaimJudgementOut(BaseModel):
     corrected_text: str | None = Field(default=None, description="A corrected version of the claim, if needed")
 
 
-class ClaimJudgementsOut(BaseModel):
+class ClaimJudgementsOut(LLMOut):
     judgements: list[ClaimJudgementOut]
 
 
@@ -371,7 +426,7 @@ class SourceAssessment(BaseModel):
     flags: list[str] = Field(default_factory=list)
 
 
-class FactGapOut(BaseModel):
+class FactGapOut(LLMOut):
     section_index: int | None = None
     title: str
     detail: str
@@ -379,7 +434,7 @@ class FactGapOut(BaseModel):
     suggestion: str
 
 
-class FactReviewOut(BaseModel):
+class FactReviewOut(LLMOut):
     """Holistic accuracy review: misleading framing, inconsistencies, gaps."""
 
     gaps: list[FactGapOut] = Field(default_factory=list, max_length=12)
@@ -415,7 +470,7 @@ class SectionTiming(BaseModel):
     status: Literal["ok", "too_long", "too_short"]
 
 
-class RubricScoreOut(BaseModel):
+class RubricScoreOut(LLMOut):
     criterion: Literal[
         "objective_alignment",
         "clarity",
@@ -427,10 +482,15 @@ class RubricScoreOut(BaseModel):
     score: int = Field(ge=1, le=5)
     rationale: str
 
+    @field_validator("score", mode="before")
+    @classmethod
+    def _round_score(cls, value):
+        return round(value) if isinstance(value, float) else value
 
-class InstructionIssueOut(BaseModel):
+
+class InstructionIssueOut(LLMOut):
     section_index: int | None = None
-    category: Literal["alignment", "clarity", "structure", "examples", "practice", "assessment", "pacing", "level", "accessibility"]
+    category: Literal["alignment", "clarity", "structure", "examples", "practice", "engagement", "assessment", "pacing", "level", "accessibility"]
     severity: Severity
     title: str
     detail: str
@@ -439,7 +499,7 @@ class InstructionIssueOut(BaseModel):
     replace: str | None = None
 
 
-class InstructionReviewOut(BaseModel):
+class InstructionReviewOut(LLMOut):
     rubric: list[RubricScoreOut] = Field(min_length=6, max_length=6)
     issues: list[InstructionIssueOut] = Field(default_factory=list, max_length=15)
     strengths: list[str] = Field(default_factory=list, max_length=5)
@@ -466,7 +526,7 @@ class InstructionReport(BaseModel):
 # ---------------------------------------------------------------------------
 
 
-class RewriteOut(BaseModel):
+class RewriteOut(LLMOut):
     body_md: str
     change_summary: str
 

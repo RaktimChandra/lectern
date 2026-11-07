@@ -218,7 +218,7 @@ async def draft(ctx: StepContext) -> str:
     videos = [s for s in ctx.lesson.sources if s.kind == "video"]
 
     system, user = prompts.draft(req, analysis, outline_.sections, evidence, videos, ctx.settings.reading_words_per_minute)
-    result = await writer.structured("draft", system=system, user=user, schema=DraftOut, temperature=0.5, max_tokens=16000)
+    result = await writer.structured("draft", system=system, user=user, schema=DraftOut, temperature=0.5, max_tokens=32000)
 
     content, notes = assemble(result, outline_.sections, ctx)
     for note in notes:
@@ -232,6 +232,8 @@ def assemble(result: DraftOut, plan: list[OutlineSection], ctx: StepContext) -> 
     notes: list[str] = []
     valid = {s.id for s in ctx.lesson.sources}
     by_index = {d.index: d for d in result.sections}
+    if any(i not in by_index for i in range(len(plan))) and len(result.sections) == len(plan):
+        by_index = dict(enumerate(result.sections))  # numbered from 1 or renumbered: trust the order
     missing = [i for i in range(len(plan)) if i not in by_index]
     if missing:
         raise StepError(f"The draft skipped {len(missing)} of the planned sections. Retry this step.")

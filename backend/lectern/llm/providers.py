@@ -153,11 +153,12 @@ class AnthropicClient(_DiscoveringClient):
             raise LLMError("Anthropic is overloaded (529). Lectern waits and retries automatically.", status=529)
         raise_for_status("Anthropic", response)
         data = response.json()
+        if data.get("stop_reason") == "max_tokens":
+            raise LLMError("Anthropic reply was cut off (max_tokens). Retry, or use a model with a larger output limit.",
+                           retryable=False)
         for block in data.get("content", []):
             if block.get("type") == "tool_use":
                 return block.get("input") or {}
-        if data.get("stop_reason") == "max_tokens":
-            raise LLMError("Anthropic reply was cut off (max_tokens). Retry, or use a model with a larger output limit.")
         raise LLMError("Anthropic reply did not contain the structured result.")
 
 
@@ -208,6 +209,8 @@ class OpenAICompatibleClient(_DiscoveringClient):
             # output budget. Low effort keeps structured steps fast and avoids
             # truncated JSON. Dropped automatically if a model refuses it.
             body["reasoning_effort"] = "low"
+            if not re.match(r"gemini-[12]\.", self.model.removeprefix("models/")):
+                body.pop("temperature")  # Gemini 3+ (and -latest aliases) loop below the default 1.0
         for name in self._adapt:
             for param, fix in _ADAPTATIONS:
                 if param == name and param in body:
@@ -238,7 +241,7 @@ class OpenAICompatibleClient(_DiscoveringClient):
         except (KeyError, IndexError, TypeError) as exc:
             raise LLMError(f"{self.provider} reply had an unexpected shape.") from exc
         if choice.get("finish_reason") == "length":
-            raise LLMError(f"{self.provider} reply was cut off (length limit). Retry or raise max_tokens.")
+            raise LLMError(f"{self.provider} reply was cut off (length limit). Retry or raise max_tokens.", retryable=False)
         return parse_json_text(self.provider, content or "")
 
 

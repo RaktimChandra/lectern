@@ -40,7 +40,7 @@ def _llm_check(client: LLMClient) -> Callable[[], Awaitable[str]]:
             "connection check",
             system="You are a connectivity probe. Answer briefly.",
             user='Return {"ok": true, "word": "ready"}.',
-            schema=_Ping, temperature=0.0, max_tokens=400,
+            schema=_Ping, temperature=0.0, max_tokens=2000,
         )
         if not result.ok:
             raise RuntimeError("the model answered, but not as instructed")

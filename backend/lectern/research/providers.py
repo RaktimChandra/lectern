@@ -102,6 +102,17 @@ class TavilySearch:
         return parse_tavily(response.json(), query)
 
 
+_MD_IMAGE = re.compile(r"!\[[^\]]*\]\([^)]*\)")
+_MD_LINK = re.compile(r"\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)")
+
+
+def markdown_to_text(text: str) -> str:
+    """Tavily raw_content is Markdown; keep link text, drop URLs and images so quotes can match verbatim."""
+    text = _MD_IMAGE.sub("", text)
+    text = _MD_LINK.sub(r"\1", text)
+    return text.replace("**", "").replace("__", "")
+
+
 def parse_tavily(data: dict, query: str) -> list[WebHit]:
     hits = []
     for item in data.get("results", []):
@@ -112,7 +123,7 @@ def parse_tavily(data: dict, query: str) -> list[WebHit]:
                 title=item.get("title") or item["url"],
                 url=item["url"],
                 snippet=(item.get("content") or "")[:600],
-                content=(item.get("raw_content") or "")[:MAX_TEXT_CHARS],
+                content=markdown_to_text(item.get("raw_content") or "")[:MAX_TEXT_CHARS],
                 query=query,
             )
         )

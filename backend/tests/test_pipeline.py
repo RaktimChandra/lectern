@@ -169,3 +169,13 @@ async def test_recover_interrupted(store, settings):
 
 async def _noop(*_):
     return None
+
+
+async def test_draft_numbered_from_one_is_accepted(store, settings):
+    replies = http_replies()
+    draft = replies["draft"](None) if callable(replies["draft"]) else replies["draft"]
+    shifted = {**draft, "sections": [{**s, "index": s["index"] + 1} for s in draft["sections"]]}
+    llm = ScriptedLLM({**replies, "draft": shifted})
+    lesson = await run_lesson(store, settings, llm)
+    assert lesson.step(StepName.draft).status == "done", lesson.step(StepName.draft).error
+    assert len(lesson.current.content.sections) == len(draft["sections"])

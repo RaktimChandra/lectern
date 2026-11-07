@@ -194,7 +194,7 @@ Write:
    statement. Address the listed misconceptions where they fit. The activity has numbered steps, an expected
    result and a way for the learner to check their work. The check section body is one or two sentences of
    instructions only; the questions go in knowledge_checks. {notes_rule}
-3. knowledge_checks: 4 to 6 multiple-choice questions. Each tests one or more objective parts, has exactly one
+3. knowledge_checks: 4 to 6 multiple-choice questions, each with exactly 4 options. Each tests one or more objective parts, has exactly one
    correct answer, uses a misconception as a distractor where possible, and has an explanation of why the answer
    is right and why the most tempting wrong option is wrong. Test every objective part at least once. List the
    source ids that support each answer.
@@ -320,8 +320,9 @@ structure_and_flow (each section builds on the last; the hook connects to the re
 examples_and_practice (realistic examples; an activity that makes the learner apply the idea),
 engagement (concrete scenarios; the learner does something regularly),
 accuracy_of_level (the depth fits the audience and the time).
-Then list the specific issues that would most improve learning, most important first. For each: section index (or
-null), category, severity, what is wrong, and a concrete suggestion. If a small text change fixes it, give the exact
+Then list at most 12 specific issues that would most improve learning, most important first. For each: section
+index (or null), category (one of: alignment, clarity, structure, examples, practice, engagement, assessment,
+pacing, level, accessibility), severity (high, medium or low), what is wrong, and a concrete suggestion. If a small text change fixes it, give the exact
 text to find in that section (copied exactly, at least a few words) and its replacement.
 Finally list up to 5 strengths worth keeping."""
     return system, user
