@@ -26,7 +26,9 @@ OPENAI_COMPATIBLE_BASE_URLS: dict[str, str] = {
 DEFAULT_MODELS: dict[str, str] = {
     "anthropic": "claude-sonnet-5-5",
     "openai": "gpt-4.1",
-    "gemini": "gemini-2.5-flash",
+    # An alias Google keeps pointed at its current Flash model. If it ever
+    # disappears, the client lists the available models and picks one (see llm/providers.py).
+    "gemini": "gemini-flash-latest",
     "openrouter": "anthropic/claude-sonnet-5-5",
     "ollama": "llama3.1",
 }
@@ -39,6 +41,8 @@ class Settings(BaseSettings):
         env_file=(ROOT_DIR / ".env", ROOT_DIR / "backend" / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
+        # `.env.example` leaves optional settings blank (`LLM_PROVIDER=`); blank means "not set".
+        env_ignore_empty=True,
     )
 
     # --- Language models -------------------------------------------------
@@ -56,8 +60,10 @@ class Settings(BaseSettings):
     qc_provider: ProviderName | None = None
     qc_model: str | None = None
 
-    llm_timeout_seconds: float = 120.0
-    llm_max_retries: int = 3
+    # A full 45-minute lesson is one long structured reply; slower models need minutes.
+    llm_timeout_seconds: float = 420.0
+    llm_max_retries: int = 4
+    ollama_base_url: str = OPENAI_COMPATIBLE_BASE_URLS["ollama"]
 
     # --- Research --------------------------------------------------------
     tavily_api_key: str | None = None
@@ -78,6 +84,16 @@ class Settings(BaseSettings):
     # --- Storage / server --------------------------------------------------
     data_dir: Path = ROOT_DIR / "data"
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
+
+    # --- Hosting (all optional; only needed when Lectern is reachable by others) ---
+    # When set, every API call needs this passphrase (the UI asks for it once).
+    access_token: str | None = None
+    # New lessons each client may start per hour; protects paid API keys on a public URL.
+    lessons_per_hour: int = Field(default=30, ge=1)
+    # Requests per minute per client for everything else.
+    requests_per_minute: int = Field(default=240, ge=10)
+    # Trust X-Forwarded-For from a reverse proxy (Render, Fly, nginx) when counting clients.
+    behind_proxy: bool = False
 
     @property
     def db_path(self) -> Path:
@@ -129,6 +145,7 @@ class Settings(BaseSettings):
                 "books": "google_books+open_library",
             },
             "lesson_minutes": self.lesson_minutes,
+            "access_protected": bool(self.access_token),
         }
 
 
