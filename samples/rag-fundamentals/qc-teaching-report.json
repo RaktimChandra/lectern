@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-07T18:13:58.555963Z",
+  "reviewer": "gemini:gemini-flash-lite-latest",
+  "coverage": [
+    {
+      "atom_id": "O1",
+      "statement": "Explain the step-by-step workflow of a standard RAG pipeline (retrieval, augmentation, and generation).",
+      "taught_in": [
+        "sec-2",
+        "sec-4"
+      ],
+      "assessed_in": [
+        "kc-1",
+        "kc-4"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O2",
+      "statement": "Explain how injecting retrieved context reduces hallucinations and provides source grounding in language model outputs.",
+      "taught_in": [
+        "sec-3",
+        "sec-4"
+      ],
+      "assessed_in": [
+        "kc-2",
+        "kc-4"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O3",
+      "statement": "Distinguish between the operational mechanisms of RAG (dynamic context retrieval) and fine-tuning (weight updates via training).",
+      "taught_in": [
+        "sec-5",
+        "sec-6"
+      ],
+      "assessed_in": [
+        "kc-1",
+        "kc-3"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O4",
+      "statement": "Identify appropriate use cases where RAG is preferred over fine-tuning based on data volatility, cost, latency, and attribution requirements.",
+      "taught_in": [
+        "sec-5",
+        "sec-6"
+      ],
+      "assessed_in": [
+        "kc-3"
+      ],
+      "status": "covered"
+    }
+  ],
+  "timing": [
+    {
+      "section_id": "sec-1",
+      "allotted_minutes": 5,
+      "estimated_minutes": 1.3,
+      "words": 240,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-2",
+      "allotted_minutes": 7,
+      "estimated_minutes": 1.4,
+      "words": 251,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-3",
+      "allotted_minutes": 6,
+      "estimated_minutes": 1.4,
+      "words": 261,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-4",
+      "allotted_minutes": 6,
+      "estimated_minutes": 2.0,
+      "words": 117,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-5",
+      "allotted_minutes": 7,
+      "estimated_minutes": 1.6,
+      "words": 291,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-6",
+      "allotted_minutes": 5,
+      "estimated_minutes": 1.5,
+      "words": 269,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-7",
+      "allotted_minutes": 5,
+      "estimated_minutes": 0.1,
+      "words": 19,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-8",
+      "allotted_minutes": 4,
+      "estimated_minutes": 0.8,
+      "words": 149,
+      "status": "too_short"
+    }
+  ],
+  "total_minutes": 45,
+  "estimated_total_minutes": 10.1,
+  "readability": {
+    "flesch_reading_ease": 39.7,
+    "avg_sentence_words": 18.3,
+    "long_sentences": 7,
+    "words": 1702
+  },
+  "rubric": [
+    {
+      "criterion": "objective_alignment",
+      "score": 5,
+      "rationale": "All four objectives are thoroughly taught and assessed through aligned examples, practice scenarios, and knowledge checks."
+    },
+    {
+      "criterion": "clarity",
+      "score": 4,
+      "rationale": "Concepts like prompt augmentation, grounding, and parametric memory are clearly defined, though dense readability could be slightly improved."
+    },
+    {
+      "criterion": "structure_and_flow",
+      "score": 4,
+      "rationale": "The lesson flows logically from motivation (hook) to workflow, mechanics, examples, architecture trade-offs, practice, and assessment."
+    },
+    {
+      "criterion": "examples_and_practice",
+      "score": 5,
+      "rationale": "The customer support walkthrough and architectural scenario practice are highly realistic and directly test the core concepts."
+    },
+    {
+      "criterion": "engagement",
+      "score": 4,
+      "rationale": "Interactive scenarios and built-in self-checks maintain learner engagement despite being self-paced."
+    },
+    {
+      "criterion": "accuracy_of_level",
+      "score": 5,
+      "rationale": "The technical depth is perfectly calibrated for introductory engineering students."
+    }
+  ],
+  "strengths": [
+    "Compelling hook addressing the stale fact problem that resonates with real-world LLM limitations.",
+    "Clear, step-by-step breakdown of the RAG pipeline with a concrete customer support example.",
+    "Comprehensive comparison table distinguishing RAG from fine-tuning across four key dimensions.",
+    "Practical architecture scenarios that test learners' ability to choose between RAG and fine-tuning."
+  ],
+  "issues": [
+    {
+      "id": "I1",
+      "layer": "instruction",
+      "severity": "medium",
+      "category": "assessment",
+      "section_id": "sec-7",
+      "title": "Missing Knowledge Check Body",
+      "detail": "Section 6 introduces the knowledge check heading and points to questions that appear later under the recap section, which disrupts the expected flow.",
+      "suggestion": "Move the knowledge check questions directly into section 6 so learners complete them right after the practice activity.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Move the knowledge check questions directly into section 6 so learners complete them right after the practice activity."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I2",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-1",
+      "title": "“The Stale Fact Problem” is thin for 5 minutes",
+      "detail": "About 1.3 minutes of reading against 5 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 540 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 540 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I3",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-2",
+      "title": "“The Three Steps of a RAG Pipeline” is thin for 7 minutes",
+      "detail": "About 1.4 minutes of reading against 7 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 756 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 756 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I4",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-3",
+      "title": "“Grounding and Mitigating Hallucinations” is thin for 6 minutes",
+      "detail": "About 1.4 minutes of reading against 6 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 648 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 648 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I5",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-5",
+      "title": "“RAG vs. Fine-Tuning: Weights vs. Context” is thin for 7 minutes",
+      "detail": "About 1.6 minutes of reading against 7 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 756 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 756 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I6",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-8",
+      "title": "“Summary and Core Takeaways” is thin for 4 minutes",
+      "detail": "About 0.8 minutes of reading against 4 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 432 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 432 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I7",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "clarity",
+      "section_id": "sec-4",
+      "title": "“Tracing a Customer Support RAG Query” is dense",
+      "detail": "Reading ease 26.4 (very dense), 1 sentences over 30 words.",
+      "suggestion": "Split long sentences and define terms as they appear.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Split sentences longer than 25 words and define each technical term on first use. Keep all citations."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    }
+  ],
+  "quality_score": 86.8,
+  "summary": "4 of 4 objective parts are taught and tested. Timing fits in 3 of 8 sections. Rubric average 4.5 of 5. 7 suggestions."
+}

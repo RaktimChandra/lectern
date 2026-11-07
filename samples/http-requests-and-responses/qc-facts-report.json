@@ -1,0 +1,1246 @@
+{
+  "version": 3,
+  "generated_at": "2026-11-07T18:15:54.523843Z",
+  "reviewer": "gemini:gemini-flash-lite-latest",
+  "claims": [
+    {
+      "id": "C1",
+      "section_id": "sec-1",
+      "text": "HTTP methods tell the web server what kind of action the client wants to perform, while status codes provide a standardized numeric reply showing what happened",
+      "cited_source_ids": [
+        "S10",
+        "S14",
+        "S23"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S23",
+          "quote": "In the previous lecture we learned how HTTP methods such as get, post, put, patch and delete allow client to tell a server what action it want to perform.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S23",
+          "quote": "This is where HTTP status code become important because these are the standard numeric response that a server send back to a client.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S24",
+          "quote": "So HTTP status code is a three-digit number written by a server in response to a request made by a client.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C2",
+      "section_id": "sec-2",
+      "text": "The HTTP GET method requests data from a specified resource",
+      "cited_source_ids": [
+        "S10"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S10",
+          "quote": "* GET: Requests data from a specified resource.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C3",
+      "section_id": "sec-2",
+      "text": "An HTTP method is safe if it does not change server state",
+      "cited_source_ids": [
+        "S2",
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "A request method is safe if a request with that method has no intended effect on the server.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C4",
+      "section_id": "sec-2",
+      "text": "A method is idempotent if making multiple identical requests has the same effect on the server as making a single request",
+      "cited_source_ids": [
+        "S2"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "A request method is idempotent if multiple identical requests with that method have the same effect as a single such request.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C5",
+      "section_id": "sec-2",
+      "text": "GET is both safe and idempotent",
+      "cited_source_ids": [
+        "S2"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S2",
+          "quote": "| `GET` | Yes | Yes | Yes |",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C6",
+      "section_id": "sec-2",
+      "text": "GET can still send data to the server",
+      "cited_source_ids": [],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "| GET | Retrieves data | URL (query parameters) | ❌ No | Read/fetch data |",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C7",
+      "section_id": "sec-2",
+      "text": "It does this by attaching query parameters directly to the request URL",
+      "cited_source_ids": [
+        "S8",
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "GET requests append data to the URL as query parameters (?name=value&role=admin), while POST requests send data in the request body.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C8",
+      "section_id": "sec-2",
+      "text": "A query parameter is a key-value pair appended after a question mark in the URL string, such as /map?city=boston",
+      "cited_source_ids": [
+        "S8"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S5",
+          "quote": "A query string can be appended to the path for additional information (usually in `key=value` format).",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "GET requests append data to the URL as query parameters (?name=value&role=admin)",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "The passages support that query parameters are key-value pairs appended after a question mark in the URL, but the specific example `/map?city=boston` is not explicitly stated in the text.",
+      "corrected_text": "A query parameter is a key-value pair appended after a question mark in the URL string, such as ?name=value",
+      "downgraded": false
+    },
+    {
+      "id": "C9",
+      "section_id": "sec-2",
+      "text": "URLs have length limits that restrict GET requests to roughly 2,000 to 8,000 characters depending on the browser, and they can only transmit URL-safe text",
+      "cited_source_ids": [
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "URL length limits restrict GET requests to roughly 2,000-8,000 characters, depending on the browser.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "GET can only transmit URL-safe text, while POST can send any data type specified by the Content-Type header, such as JSON, XML, or binary files.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C10",
+      "section_id": "sec-2",
+      "text": "Because GET requests are safe and read-only, browsers and intermediate proxies can cache them to speed up subsequent visits",
+      "cited_source_ids": [
+        "S2",
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "Since GET requests don’t modify data, browsers and proxies can safely cache responses to improve performance.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C11",
+      "section_id": "sec-2",
+      "text": "The HTTP POST method submits data to be processed by a specified resource, such as creating a new database record or submitting an order form",
+      "cited_source_ids": [
+        "S10",
+        "S11",
+        "S13"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S10",
+          "quote": "POST: Submits data to be processed to a specified resource.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "The HTTP POST method submits data to a server to create a new resource or trigger an action.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C12",
+      "section_id": "sec-2",
+      "text": "Unlike GET, POST sends its data inside the request body rather than the URL",
+      "cited_source_ids": [
+        "S8",
+        "S11",
+        "S14"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "GET requests append data to the URL as query parameters (?name=value&role=admin), while POST requests send data in the request body.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "Unlike GET requests, POST requests include a request body with the sent data and the ability to change the server state.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C13",
+      "section_id": "sec-2",
+      "text": "A request body, or payload, is the data package sent directly after the HTTP headers",
+      "cited_source_ids": [
+        "S14"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S14",
+          "quote": "Request Headers: Additional information about the request, such as browser details or accepted content types. * Request Body: Optional data sent to the server, commonly when submitting forms.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "The passages state that the request body contains optional data sent to the server, but do not specifically state it is sent 'directly after the HTTP headers' (though headers come before the body as per S5.p7).",
+      "corrected_text": "A request body is optional data sent to the server, commonly when submitting forms.",
+      "downgraded": false
+    },
+    {
+      "id": "C14",
+      "section_id": "sec-2",
+      "text": "POST can transmit any data format defined by the Content-Type header, including JSON, XML, or binary files, and it does not have the strict character length limits of URL query strings",
+      "cited_source_ids": [
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "GET can only transmit URL-safe text, while POST can send any data type specified by the Content-Type header, such as JSON, XML, or binary files.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "URL length limits restrict GET requests to roughly 2,000-8,000 characters, depending on the browser. POST has no such restriction and can handle megabytes of data.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C15",
+      "section_id": "sec-2",
+      "text": "POST is not safe because it alters server state",
+      "cited_source_ids": [
+        "S2",
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S2",
+          "quote": "POST : The `POST` method submits an entity to the specified resource, often causing a change in state or side effects on the server.",
+          "match": "close",
+          "match_score": 99.2
+        },
+        {
+          "source_id": "S15",
+          "quote": "In contrast, the methods POST, PUT, DELETE, CONNECT, and PATCH are not safe. They may modify the state of the server or have other effects such as sending an email.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C16",
+      "section_id": "sec-2",
+      "text": "POST is also non-idempotent: sending the same POST request multiple times will execute the operation multiple times",
+      "cited_source_ids": [
+        "S2",
+        "S11"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "The POST method is not idempotent, so sending the same POST request twice may create duplicate entries.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S15",
+          "quote": "In contrast, the methods POST, CONNECT, and PATCH are not necessarily idempotent, and therefore sending an identical POST request multiple times may further modify the state of the server or have further effects, such as sending multiple emails.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "S15.p29 states that POST is 'not necessarily idempotent' rather than strictly non-idempotent in all absolute interpretations, though S11 and S2 categorize it as not idempotent.",
+      "corrected_text": "POST is not necessarily idempotent, so sending the same POST request multiple times may further modify the state of the server.",
+      "downgraded": false
+    },
+    {
+      "id": "C17",
+      "section_id": "sec-2",
+      "text": "For this reason, POST requests are not cached by default",
+      "cited_source_ids": [
+        "S2",
+        "S11"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "POST requests typically aren’t cached because they usually trigger actions or modify resources.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S8",
+          "quote": "* POST requests are never cached",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C18",
+      "section_id": "sec-2",
+      "text": "Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible on screen, saved in browser history, and recorded in server logs",
+      "cited_source_ids": [
+        "S11"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "Because GET data lives in the URL, it appears in browser history, bookmarks, and server logs.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "This exposes credentials in browser history, server logs, proxy logs, and referrer headers.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "The passages state that data in the URL appears in browser history and server logs, but do not explicitly mention being 'visible on screen'.",
+      "corrected_text": "Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible in browser history and server logs.",
+      "downgraded": false
+    },
+    {
+      "id": "C19",
+      "section_id": "sec-2",
+      "text": "Moving data from the URL to the request body only hides it from the browser address bar and history",
+      "cited_source_ids": [
+        "S8",
+        "S11"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S11",
+          "quote": "POST data stays hidden in the request body, so you can’t bookmark it, but you also won’t accidentally leak credentials.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "The passages mention that POST data stays hidden in the request body, preventing bookmarks and accidental credential leaks, but do not explicitly state it only hides data from the browser address bar and history.",
+      "corrected_text": "Moving data from the request body hides it from being bookmarked or accidentally leaked.",
+      "downgraded": false
+    },
+    {
+      "id": "C20",
+      "section_id": "sec-2",
+      "text": "Plain HTTP sends both query strings and request bodies across the network unencrypted",
+      "cited_source_ids": [
+        "S10",
+        "S11"
+      ],
+      "verdict": "partially_supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "In HTTP implementations, TCP/IP connections are used using well-known ports (typically port 80 if the connection is unencrypted or port 443 if the connection is encrypted, see also List of TCP and UDP port numbers).",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "The passages state that port 80 is used if the connection is unencrypted, but do not specifically mention query strings and request bodies being sent unencrypted over plain HTTP in that exact phrasing.",
+      "corrected_text": "Plain HTTP uses unencrypted connections across the network.",
+      "downgraded": false
+    },
+    {
+      "id": "C21",
+      "section_id": "sec-3",
+      "text": "An HTTP response begins with a three-digit status code issued by the server to tell the client the result of its request",
+      "cited_source_ids": [
+        "S10",
+        "S12"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S24",
+          "quote": "So HTTP status code is a three-digit number written by a server in response to a request made by a client.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S14",
+          "quote": "* HTTP Status Code: Indicates whether the request was successful.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C22",
+      "section_id": "sec-3",
+      "text": "Status codes are organized into five families based on their first digit",
+      "cited_source_ids": [
+        "S10",
+        "S12",
+        "S15"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S10",
+          "quote": "These codes are divided into five categories: ### 1xx: Informational",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S23",
+          "quote": "So as you all know that HTTP status codes are grouped into five major categories. The first digit of the code tell us the category to which the response belongs.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C23",
+      "section_id": "sec-3",
+      "text": "The 2xx class indicates that the client request was successfully received, understood, and accepted by the server",
+      "cited_source_ids": [
+        "S14",
+        "S15",
+        "S16"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "2XX successful The request was successfully received, understood, and accepted.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S16",
+          "quote": "A success status indicates that the action requested by the client was received, understood, and accepted.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C24",
+      "section_id": "sec-3",
+      "text": "When a read operation succeeds, the server usually replies with 200 OK and supplies the requested entity in the response body",
+      "cited_source_ids": [
+        "S14",
+        "S16"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S16",
+          "quote": "200 OK Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C25",
+      "section_id": "sec-3",
+      "text": "When a request creates a new item on the server, such as a newly inserted user account, the server returns 201 Created",
+      "cited_source_ids": [
+        "S11",
+        "S16"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S22",
+          "quote": "201 Created is another thumbs up, for when something new was created.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S11",
+          "quote": "The server responds with details about the newly created resource: \n```\nHTTP/1.1 201 Created\nLocation: /api/users/12345\nContent-Type: application/json\n\n{\n  \"id\": \"12345\",\n  \"name\": \"Penny Ostman\",\n  \"email\": \"[email protected]\"\n}\n```",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C26",
+      "section_id": "sec-3",
+      "text": "The 4xx class indicates that the request cannot be fulfilled due to a problem on the client side",
+      "cited_source_ids": [
+        "S14",
+        "S15"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "4XX client error The request cannot be fulfilled due to an issue that the client might be able to control.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C27",
+      "section_id": "sec-3",
+      "text": "404 Not Found means the requested URL resource does not exist on the server",
+      "cited_source_ids": [
+        "S14"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S3",
+          "quote": "`404 Not Found` : The server cannot find the requested resource. In the browser, this means the URL is not recognized.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C28",
+      "section_id": "sec-3",
+      "text": "The 5xx class indicates that the server encountered an internal failure while trying to process a request",
+      "cited_source_ids": [
+        "S14",
+        "S15"
+      ],
+      "verdict": "supported",
+      "evidence": [
+        {
+          "source_id": "S15",
+          "quote": "5XX server error The server failed to fulfill an apparently valid request.",
+          "match": "exact",
+          "match_score": 100.0
+        },
+        {
+          "source_id": "S4",
+          "quote": "The HTTP `500 Internal Server Error` server error response status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.",
+          "match": "exact",
+          "match_score": 100.0
+        }
+      ],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    },
+    {
+      "id": "C29",
+      "section_id": "sec-3",
+      "text": "In order to receive a 500 response code, your network connection must be functioning well enough to reach the server and receive the reply",
+      "cited_source_ids": [
+        "S10",
+        "S14"
+      ],
+      "verdict": "unsupported",
+      "evidence": [],
+      "note": "",
+      "corrected_text": null,
+      "downgraded": false
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "S1",
+      "tier": "primary",
+      "score": 0.97,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S2",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S3",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S4",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S5",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S6",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S7",
+      "tier": "official_docs",
+      "score": 0.9,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S8",
+      "tier": "academic",
+      "score": 0.85,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S9",
+      "tier": "official_docs",
+      "score": 0.8,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S10",
+      "tier": "unknown",
+      "score": 0.5,
+      "cited": true,
+      "flags": [
+        "Low reliability"
+      ]
+    },
+    {
+      "source_id": "S11",
+      "tier": "unknown",
+      "score": 0.5,
+      "cited": true,
+      "flags": [
+        "Low reliability"
+      ]
+    },
+    {
+      "source_id": "S12",
+      "tier": "unknown",
+      "score": 0.5,
+      "cited": true,
+      "flags": [
+        "Low reliability"
+      ]
+    },
+    {
+      "source_id": "S13",
+      "tier": "community",
+      "score": 0.45,
+      "cited": true,
+      "flags": [
+        "Low reliability"
+      ]
+    },
+    {
+      "source_id": "S14",
+      "tier": "community",
+      "score": 0.45,
+      "cited": true,
+      "flags": [
+        "Low reliability"
+      ]
+    },
+    {
+      "source_id": "S15",
+      "tier": "reference",
+      "score": 0.7,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S16",
+      "tier": "reference",
+      "score": 0.7,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S17",
+      "tier": "publisher",
+      "score": 0.8,
+      "cited": false,
+      "flags": [
+        "Not cited",
+        "Bibliographic record only"
+      ]
+    },
+    {
+      "source_id": "S18",
+      "tier": "publisher",
+      "score": 0.8,
+      "cited": false,
+      "flags": [
+        "Not cited",
+        "Bibliographic record only"
+      ]
+    },
+    {
+      "source_id": "S19",
+      "tier": "community",
+      "score": 0.65,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S20",
+      "tier": "community",
+      "score": 0.65,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S21",
+      "tier": "community",
+      "score": 0.65,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S22",
+      "tier": "community",
+      "score": 0.65,
+      "cited": false,
+      "flags": [
+        "Not cited"
+      ]
+    },
+    {
+      "source_id": "S23",
+      "tier": "community",
+      "score": 0.58,
+      "cited": true,
+      "flags": []
+    },
+    {
+      "source_id": "S24",
+      "tier": "community",
+      "score": 0.58,
+      "cited": true,
+      "flags": []
+    }
+  ],
+  "issues": [
+    {
+      "id": "F1",
+      "layer": "facts",
+      "severity": "medium",
+      "category": "claim:unsupported",
+      "section_id": "sec-3",
+      "title": "Not supported by the sources",
+      "detail": "“In order to receive a 500 response code, your network connection must be functioning well enough to reach the server and receive the reply”",
+      "suggestion": "Support it with a source from the research, or remove it.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "The statement \"In order to receive a 500 response code, your network connection must be functioning well enough to reach the server and receive the reply\" is unsupported by the sources. Rewrite it so it states only what the evidence supports, with a citation, or remove it."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F2",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“A query parameter is a key-value pair appended after a question mark in the URL string, such as /map?city=boston” The passages support that query parameters are key-value pairs appended after a question mark in the URL, but the specific example `/map?city=boston` is not explicitly stated in the text. Evidence [S5]: “A query string can be appended to the path for additional information (usually in `key=value` format).”",
+      "suggestion": "Change it to: A query parameter is a key-value pair appended after a question mark in the URL string, such as ?name=value",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "The statement \"A query parameter is a key-value pair appended after a question mark in the URL string, such as /map?city=boston\" is partially supported by the sources. Correct it to: A query parameter is a key-value pair appended after a question mark in the URL string, such as ?name=value. Rewrite it so it states only what the evidence supports, with a citation, or remove it."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F3",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“A request body, or payload, is the data package sent directly after the HTTP headers” The passages state that the request body contains optional data sent to the server, but do not specifically state it is sent 'directly after the HTTP headers' (though headers come before the body as per S5.p7). Evidence [S14]: “Request Headers: Additional information about the request, such as browser details or accepted content types. * Request Body: Optional data sent to the server, commonly when submitting forms.”",
+      "suggestion": "Change it to: A request body is optional data sent to the server, commonly when submitting forms.",
+      "fix": {
+        "type": "replace",
+        "find": "A request body, or payload, is the data package sent directly after the HTTP headers",
+        "replace": "A request body is optional data sent to the server, commonly when submitting forms",
+        "instruction": null
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F4",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“POST is also non-idempotent: sending the same POST request multiple times will execute the operation multiple times” S15.p29 states that POST is 'not necessarily idempotent' rather than strictly non-idempotent in all absolute interpretations, though S11 and S2 categorize it as not idempotent. Evidence [S11]: “The POST method is not idempotent, so sending the same POST request twice may create duplicate entries.”",
+      "suggestion": "Change it to: POST is not necessarily idempotent, so sending the same POST request multiple times may further modify the state of the server.",
+      "fix": {
+        "type": "replace",
+        "find": "POST is also non-idempotent: sending the same POST request multiple times will execute the operation multiple times",
+        "replace": "POST is not necessarily idempotent, so sending the same POST request multiple times may further modify the state of the server",
+        "instruction": null
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F5",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible on screen, saved in browser history, and recorded in server logs” The passages state that data in the URL appears in browser history and server logs, but do not explicitly mention being 'visible on screen'. Evidence [S11]: “Because GET data lives in the URL, it appears in browser history, bookmarks, and server logs.”",
+      "suggestion": "Change it to: Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible in browser history and server logs.",
+      "fix": {
+        "type": "replace",
+        "find": "Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible on screen, saved in browser history, and recorded in server logs",
+        "replace": "Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible in browser history and server logs",
+        "instruction": null
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F6",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“Moving data from the URL to the request body only hides it from the browser address bar and history” The passages mention that POST data stays hidden in the request body, preventing bookmarks and accidental credential leaks, but do not explicitly state it only hides data from the browser address bar and history. Evidence [S11]: “POST data stays hidden in the request body, so you can’t bookmark it, but you also won’t accidentally leak credentials.”",
+      "suggestion": "Change it to: Moving data from the request body hides it from being bookmarked or accidentally leaked.",
+      "fix": {
+        "type": "replace",
+        "find": "Moving data from the URL to the request body only hides it from the browser address bar and history",
+        "replace": "Moving data from the request body hides it from being bookmarked or accidentally leaked",
+        "instruction": null
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F7",
+      "layer": "facts",
+      "severity": "low",
+      "category": "claim:partially_supported",
+      "section_id": "sec-2",
+      "title": "Only partly supported",
+      "detail": "“Plain HTTP sends both query strings and request bodies across the network unencrypted” The passages state that port 80 is used if the connection is unencrypted, but do not specifically mention query strings and request bodies being sent unencrypted over plain HTTP in that exact phrasing. Evidence [S15]: “In HTTP implementations, TCP/IP connections are used using well-known ports (typically port 80 if the connection is unencrypted or port 443 if the connection is encrypted, see also List of TCP and UDP port numbers).”",
+      "suggestion": "Change it to: Plain HTTP uses unencrypted connections across the network.",
+      "fix": {
+        "type": "replace",
+        "find": "Plain HTTP sends both query strings and request bodies across the network unencrypted",
+        "replace": "Plain HTTP uses unencrypted connections across the network",
+        "instruction": null
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F8",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“The HTTP GET method requests data from a specified resource” is supported only by S10.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F9",
+      "layer": "facts",
+      "severity": "low",
+      "category": "wrong_citation",
+      "section_id": "sec-2",
+      "title": "Cited source does not contain this statement",
+      "detail": "“An HTTP method is safe if it does not change server state” cites S2, S11, but the supporting text is in S15.",
+      "suggestion": "Cite S15 instead.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "For the statement \"An HTTP method is safe if it does not change server state\", change its citation to [S15]. Change nothing else."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F10",
+      "layer": "facts",
+      "severity": "low",
+      "category": "wrong_citation",
+      "section_id": "sec-2",
+      "title": "Cited source does not contain this statement",
+      "detail": "“A method is idempotent if making multiple identical requests has the same effect on the server as making a single request” cites S2, but the supporting text is in S15.",
+      "suggestion": "Cite S15 instead.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "For the statement \"A method is idempotent if making multiple identical requests has the same effect on the server as making a single request\", change its citation to [S15]. Change nothing else."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F11",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“GET can still send data to the server” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F12",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“It does this by attaching query parameters directly to the request URL” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F13",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“URLs have length limits that restrict GET requests to roughly 2,000 to 8,000 characters depending on the browser, and they can only transmit URL-safe text” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F14",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“Because GET requests are safe and read-only, browsers and intermediate proxies can cache them to speed up subsequent visits” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F15",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“The HTTP POST method submits data to be processed by a specified resource, such as creating a new database record or submitting an order form” is supported only by S10, S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F16",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“Unlike GET, POST sends its data inside the request body rather than the URL” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F17",
+      "layer": "facts",
+      "severity": "low",
+      "category": "weak_source",
+      "section_id": "sec-2",
+      "title": "Only supported by a low-reliability source",
+      "detail": "“POST can transmit any data format defined by the Content-Type header, including JSON, XML, or binary files, and it does not have the strict character length limits of URL query strings” is supported only by S11.",
+      "suggestion": "Find a primary or official source for this statement.",
+      "fix": null,
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F18",
+      "layer": "facts",
+      "severity": "low",
+      "category": "wrong_citation",
+      "section_id": "sec-3",
+      "title": "Cited source does not contain this statement",
+      "detail": "“An HTTP response begins with a three-digit status code issued by the server to tell the client the result of its request” cites S10, S12, but the supporting text is in S14.",
+      "suggestion": "Cite S14 instead.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "For the statement \"An HTTP response begins with a three-digit status code issued by the server to tell the client the result of its request\", change its citation to [S14]. Change nothing else."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "F19",
+      "layer": "facts",
+      "severity": "low",
+      "category": "wrong_citation",
+      "section_id": "sec-3",
+      "title": "Cited source does not contain this statement",
+      "detail": "“404 Not Found means the requested URL resource does not exist on the server” cites S14, but the supporting text is in S3.",
+      "suggestion": "Cite S3 instead.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "For the statement \"404 Not Found means the requested URL resource does not exist on the server\", change its citation to [S3]. Change nothing else."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    }
+  ],
+  "accuracy_score": 0.862,
+  "summary": "22 of 29 checkable claims are supported by the sources. 6 partly supported and 1 unsupported. 11 of 24 sources are not cited."
+}

@@ -1,0 +1,811 @@
+[
+  {
+    "id": "S1",
+    "kind": "web",
+    "title": "Using Vertex AI Grounding with Google Search | Google Cloud Blog",
+    "url": "https://cloud.google.com/blog/products/ai-machine-learning/using-vertex-ai-grounding-with-google-search",
+    "domain": "cloud.google.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "1. Generated content can be fake (hallucinations).\n2. Generated content can be stale (not based on up-to-date information).\n3. Generated content has no citation to its source.\n4. Generated content has no relation to your private data (based on public knowledge only).\n\nGrounding LLMs is essential to go around these limitations and build more reliable and trustworthy generative AI applications.\n\n### Grounding in Vertex AI\n\nGoogle Cloud’s Vertex AI Agent Builder provides different grounding solutions based on public or private data:\n\nIn this blog post, I focus on Grounding with Google Search that",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "Google Cloud official documentation"
+      ]
+    },
+    "found_by": "Google Cloud architecture search and conversation grounding language models faithfulness",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S2",
+    "kind": "web",
+    "title": "Retrieval Augmented Generation options and architectures on AWS - AWS Prescriptive Guidance",
+    "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/retrieval-augmented-generation-options/introduction.html",
+    "domain": "docs.aws.amazon.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "This guide describes the distinct generative AI options that are available for answering questions from custom documentation, including Retrieval Augmented Generation (RAG) systems. It also provides an overview of building RAG systems on Amazon Web Services (AWS). By reviewing the RAG options and architectures, you can choose between fully managed services on AWS and custom RAG architectures.\n\n## Intended audience\n\nThe intended audience for this guide is generative AI architects and managers who want to build a RAG solution, to review the available architectures, and to understand the benefits",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "AWS official documentation"
+      ]
+    },
+    "found_by": "AWS documentation generative ai retrieval augmented generation workflow architecture",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S3",
+    "kind": "web",
+    "title": "[2005.11401] Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+    "url": "https://arxiv.org/abs/2005.11401",
+    "domain": "arxiv.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "archive\n\n# Computer Science > Computation and Language\n\n# Title:Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n\n|  |  |\n --- |\n| Comments: | Accepted at NeurIPS 2020 |\n| Subjects: | Computation and Language (cs.CL); Machine Learning (cs.LG) |\n| Cite as: | arXiv:2005.11401 [cs.CL] |\n|  | (or  arXiv:2005.11401v4 [cs.CL] for this version) |\n|  |  Focus to learn more  arXiv-issued DOI via DataCite |\n\n## Submission history\n\n## Access Paper:\n\n### Current browse context:\n\n### References & Citations\n\n### 13 blog links\n\n### DBLP - CS Bibliography\n\n## BibTeX formatted citation\n\n### Boo",
+    "reliability": {
+      "tier": "academic",
+      "score": 0.85,
+      "reasons": [
+        "arXiv preprint (not peer reviewed by default)"
+      ]
+    },
+    "found_by": "Lewis et al Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks arxiv",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S4",
+    "kind": "web",
+    "title": "Retrieval-Augmented Generation for Knowledge-Intensive ...",
+    "url": "https://arxiv.org/pdf/2005.11401",
+    "domain": "arxiv.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks Patrick Lewis†‡, Ethan Perez⋆, Aleksandra Piktus†, Fabio Petroni†, Vladimir Karpukhin†, Naman Goyal†, Heinrich Küttler†, Mike Lewis†, Wen-tau Yih†, Tim Rocktäschel†‡, Sebastian Riedel†‡, Douwe Kiela† †Facebook AI Research; ‡University College London; ⋆New York University; plewis@fb.com Abstract Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when ﬁne-tuned on down-stream NLP tasks. However, their ability to access and precisely manipulate knowl",
+    "reliability": {
+      "tier": "academic",
+      "score": 0.85,
+      "reasons": [
+        "arXiv preprint (not peer reviewed by default)"
+      ]
+    },
+    "found_by": "Lewis et al Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks arxiv",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S5",
+    "kind": "web",
+    "title": "raptor: recursive abstractive processing",
+    "url": "https://arxiv.org/pdf/2401.18059",
+    "domain": "arxiv.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "org/abs/1712.07040.\n12 Published as a conference paper at ICLR 2024 Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich K¨ uttler, Mike Lewis, Wen-tau Yih, Tim Rockt¨ aschel, et al. Retrieval-Augmented Gener-ation for Knowledge-Intensive NLP Tasks. Advances in Neural Information Processing Systems, 33:9459–9474, 2020. URL \nJerry Liu. LlamaIndex, 2022. URL \nNelson F Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni, and Percy Liang.\nLost in the middle: How language models use long contexts.\narXiv preprint arXiv:2",
+    "reliability": {
+      "tier": "academic",
+      "score": 0.85,
+      "reasons": [
+        "arXiv preprint (not peer reviewed by default)"
+      ]
+    },
+    "found_by": "Lewis et al Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks arxiv",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S6",
+    "kind": "web",
+    "title": "Accelerate AWS Well-Architected reviews with Generative AI | Artificial Intelligence",
+    "url": "https://aws.amazon.com/blogs/machine-learning/accelerate-aws-well-architected-reviews-with-generative-ai",
+    "domain": "aws.amazon.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Using a Retrieval Augmented Generation (RAG) architecture, the system generates a context-aware detailed assessment. The assessment includes a solution summary, an evaluation against Well-Architected pillars, an analysis of adherence to best practices, actionable improvement recommendations, and a risk assessment.\n An interactive chat interface allows deeper exploration of both the original document and generated content.\n Integration with the AWS Well-Architected Tool pre-populates workload information and initial assessment responses.\n\nThis solution offers the following key benefits:",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.8,
+      "reasons": [
+        "Identified as authoritative for this topic during research planning"
+      ]
+    },
+    "found_by": "AWS documentation generative ai retrieval augmented generation workflow architecture",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S7",
+    "kind": "web",
+    "title": "Retrieval-augmented generation - Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+    "domain": "en.wikipedia.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Type of information retrieval using LLMs\n\nRetrieval-augmented generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, LLMs first refer to a specified set of documents, then respond to user queries. These documents supplement information from the LLM's pre-existing training data. This allows LLMs to use domain-specific and/or updated information that is not available in the training data. For example, this enables LLM-based chatbots to access internal company data or generate responses based on a",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "Retrieval-Augmented Generation (RAG) Fundamentals",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S8",
+    "kind": "web",
+    "title": "RAG vs fine-tuning: when to use each (decision guide)",
+    "url": "https://www.glean.com/blog/retrieval-augemented-generation-vs-fine-tuning",
+    "domain": "glean.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Infrastructure complexity: Integrating RAG with fine-tuned models requires sophisticated technical infrastructure. This infrastructure includes robust data indexing systems, efficient retrieval mechanisms, and flexible model architectures that can seamlessly incorporate external information.\n Computational resources: While powerful, hybrid approaches can be more computationally intensive. Retrieving, filtering, and integrating external information in real-time requires significant processing power and sophisticated algorithms.\n Cost implications: The advanced capabilities come with increased c",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "OpenAI cookbook rag vs fine-tuning trade-offs decision guide",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S9",
+    "kind": "web",
+    "title": "RAG vs. Fine Tuning | B EYE",
+    "url": "https://b-eye.com/blog/rag-vs-fine-tuning",
+    "domain": "b-eye.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Comparison chart titled 'RAG vs Fine-Tuning: The Hidden Trade-Offs.' The table contrasts Fine-Tuning and RAG across three categories: Latency & Computational Cost, Scalability & Maintenance, and Knowledge Retention & Hallucination Risk. Fine-Tuning requires high initial costs but enables fast inference, whereas RAG is cheaper but slower. Fine-Tuning needs retraining, while RAG updates dynamically. Fine-Tuning reduces hallucinations by embedding knowledge, while RAG depends on retrieval accuracy. [...] Comparison chart titled 'RAG vs Fine-Tuning: The Hidden Trade-Offs.' The table contrasts Fine",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "Pinecone learning center RAG vs fine tuning comparison dynamic knowledge latency cost",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S10",
+    "kind": "web",
+    "title": "Fine-tuning vs RAG | Azion",
+    "url": "https://www.azion.com/en/learning/ai/fine-tuning-vs-rag",
+    "domain": "azion.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "What’s the cost difference? Fine-tuning: high upfront training cost (100s-1000s USD), lower inference cost. RAG: low setup cost, higher inference cost (retrieval + generation). For high-volume applications, fine-tuning may be cheaper at scale. For prototyping, RAG is cheaper.\n\nCan I use RAG with fine-tuned models? Yes. Best practice often combines both: fine-tune for domain style and patterns, use RAG for current knowledge. Fine-tuned RAG achieves best performance on domain-specific, knowledge-intensive tasks.\n\nHow do I know if my use case needs both? Evaluate requirements: Need style/format c",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "Pinecone learning center RAG vs fine tuning comparison dynamic knowledge latency cost",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S11",
+    "kind": "web",
+    "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks | Library | François Paupier",
+    "url": "https://fpaupier.fr/library/retrieval-augmented-generation-for-knowledge-intensive-nlp-tasks",
+    "domain": "fpaupier.fr",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Skip to content\n\nResearch paper arXiv\n\n# Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n\nBy Patrick Lewis & Ethan Perez & Aleksandra Piktus & Fabio Petroni & Vladimir Karpukhin & Naman Goyal & Heinrich Küttler & Mike Lewis & Wen-tau Yih & Tim Rocktäschel & Sebastian Riedel & Douwe Kiela · 2020\n\nRetrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n\narXiv2020Public source\n\nRead the paper ↗\n\nFirst page of Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.\n\nView full preview ↗First page of the original paper · arXiv. View in context ↗\n\n RAG\n LLM\n Gen AI",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "Lewis et al Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks arxiv",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S12",
+    "kind": "web",
+    "title": "Full Guide to Choosing the Right AI Stack. Part 1: RAG vs. Fine-Tuning vs. Hybrid - Intersog Israel",
+    "url": "https://intersog.co.il/blog/full-guide-to-choosing-the-right-ai-stack-part-1-rag-vs-fine-tuning-vs-hybrid/index.html",
+    "domain": "intersog.co.il",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "The trade-off, of course, is complexity. A hybrid approach inherits the challenges of both RAG and fine-tuning: you need to perform data engineering on the knowledge base and manage the training of the models. Strong MLOps/LLMOps maturity is required for deployment. However, for well-established use cases, this approach can produce highly accurate, context-aware outputs that neither method could achieve alone. We will explore when this added complexity is warranted in later sections.\n\n## Decision Dimensions: RAG vs. Fine-Tuning vs. Hybrid\n\nWhen deciding among RAG, fine-tuning, or a hybrid appr",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "OpenAI cookbook rag vs fine-tuning trade-offs decision guide",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S13",
+    "kind": "web",
+    "title": "RAG Vs. Fine Tuning: Which One Should You Choose?",
+    "url": "https://montecarlo.ai/blog-rag-vs-fine-tuning",
+    "domain": "montecarlo.ai",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "The cost structures also differ substantially. Fine-tuning has high upfront costs in computation and human effort for data labeling, but once complete, using the model involves standard inference costs. RAG saves on training costs but incurs ongoing expenses in maintaining infrastructure and performing retrieval for each query. Inference speed is another practical consideration when comparing the two approaches. RAG performs database lookups before generating answers, adding latency that can make responses slightly slower or more complex to scale under high traffic. Fine-tuned models, once dep",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "Pinecone learning center RAG vs fine tuning comparison dynamic knowledge latency cost",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S14",
+    "kind": "web",
+    "title": "Essential Concepts for Retrieval-Augmented Generation (RAG) : r/Rag",
+    "url": "https://www.reddit.com/r/Rag/comments/1r6f8a8/essential_concepts_for_retrievalaugmented",
+    "domain": "reddit.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Skip to main contentEssential Concepts for Retrieval-Augmented Generation (RAG) : r/Rag\n\nOpen menu Open navigation\n\nTutorial\n\nSome helpful insights from one of our senior software engineers, Muhammad Imtiaz.\n\n# Introduction\n\nRetrieval-Augmented Generation (RAG) represents a paradigm shift in how artificial intelligence systems access and utilize information. By combining the generative capabilities of large language models with dynamic information retrieval from external knowledge bases, RAG systems overcome the fundamental limitations of standalone language models—namely, their reliance on st",
+    "reliability": {
+      "tier": "community",
+      "score": 0.45,
+      "reasons": [
+        "Reddit (user discussion)"
+      ]
+    },
+    "found_by": "Retrieval-Augmented Generation (RAG) Fundamentals",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S15",
+    "kind": "encyclopedia",
+    "title": "Retrieval-augmented generation (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+    "domain": "wikipedia.org",
+    "publisher": "Wikipedia",
+    "authors": [],
+    "year": null,
+    "snippet": "Retrieval-augmented generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, LLMs first refer to a specified set of documents, then respond to user queries. These documents supplement information from the LLM's pre-existing training data. This allows LLMs to use domain-specific and/or updated informa",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "Retrieval-augmented generation",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S16",
+    "kind": "encyclopedia",
+    "title": "Hallucination (artificial intelligence) (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)",
+    "domain": "wikipedia.org",
+    "publisher": "Wikipedia",
+    "authors": [],
+    "year": null,
+    "snippet": "In the field of artificial intelligence (AI), a hallucination or artificial hallucination (also called bullshitting, confabulation, delusion, or mirage) is a response generated by AI that contains false or misleading information presented as fact. These terms draw a loose analogy with human psychology, where a hallucination typically involves false percepts.\nChatbots powered by large language mode",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "Hallucination (artificial intelligence)",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S17",
+    "kind": "encyclopedia",
+    "title": "Prompt engineering (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/Prompt_engineering",
+    "domain": "wikipedia.org",
+    "publisher": "Wikipedia",
+    "authors": [],
+    "year": null,
+    "snippet": "Prompt engineering is the process of structuring natural language inputs (known as prompts) to produce specified outputs from a generative AI model. Context engineering is the related area of software engineering that focuses on the management of non-prompt and prompt contexts supplied to the GenAI model, such as system instructions, metadata, API tools and tokens.\nIt can also be defined as the pr",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "Prompt engineering",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S18",
+    "kind": "book",
+    "title": "Model Context Protocol for LLMs",
+    "url": "https://openlibrary.org/works/OL45910028W",
+    "domain": "openlibrary.org",
+    "publisher": "Packt Publishing, Limited",
+    "authors": [
+      "Naveen Krishnan"
+    ],
+    "year": 2026,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by Packt Publishing, Limited",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Building Systems with LLMs",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9781806662272",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S19",
+    "kind": "book",
+    "title": "Building Machine Learning Systems with a Feature Store",
+    "url": "https://openlibrary.org/works/OL44584141W",
+    "domain": "openlibrary.org",
+    "publisher": "O'Reilly Media, Incorporated",
+    "authors": [
+      "Jim Dowling"
+    ],
+    "year": 2025,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by O'Reilly Media, Incorporated",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Building Systems with LLMs",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9781098165239",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S20",
+    "kind": "book",
+    "title": "From Transcription to Intelligence Applying Large Language Models to Healthcare Enterprise Decision Support Systems",
+    "url": "https://openlibrary.org/works/OL45034616W",
+    "domain": "openlibrary.org",
+    "publisher": "Geh Press",
+    "authors": [
+      "Suhag Pandya"
+    ],
+    "year": 2024,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.62,
+      "reasons": [
+        "Publisher: Geh Press",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Applied Large Language Models",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9781971938523",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S21",
+    "kind": "book",
+    "title": "Illustrated Guide to AI Agents",
+    "url": "https://openlibrary.org/works/OL45155798W",
+    "domain": "openlibrary.org",
+    "publisher": "O'Reilly Media, Incorporated",
+    "authors": [
+      "Maarten Grootendorst",
+      "Jay Alammar"
+    ],
+    "year": 2026,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by O'Reilly Media, Incorporated",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Building Systems with LLMs",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9798341662698",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S22",
+    "kind": "book",
+    "title": "Large Language Models Projects",
+    "url": "https://openlibrary.org/works/OL39132854W",
+    "domain": "openlibrary.org",
+    "publisher": "Apress L. P.",
+    "authors": [
+      "Pere Martra Manonelles"
+    ],
+    "year": 2024,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by Apress L. P.",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Applied Large Language Models",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9798868805141",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S23",
+    "kind": "book",
+    "title": "Conceptual Modeling",
+    "url": "https://openlibrary.org/works/OL19836945W",
+    "domain": "openlibrary.org",
+    "publisher": "Springer",
+    "authors": [
+      "Paolo Atzeni"
+    ],
+    "year": 2012,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by Springer",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "Applied Large Language Models",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": "9783642340024",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S24",
+    "kind": "video",
+    "title": "What is Retrieval-Augmented Generation (RAG)?",
+    "url": "https://www.youtube.com/watch?v=T-D1OfcDW1M",
+    "domain": "youtube.com",
+    "publisher": "IBM Technology",
+    "authors": [],
+    "year": 2023,
+    "snippet": "Ready to become a certified GenAI engineer? Register now and use code IBMTechYT20 for 20% off of your exam ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (2,097,173 views)"
+      ]
+    },
+    "found_by": "Retrieval Augmented Generation RAG explained simply",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 396,
+    "channel": "IBM Technology",
+    "view_count": 2097173,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 7,
+      "end_seconds": 310,
+      "excerpt": "My name is Marina Danilevsky. I am a Senior Research Scientist here at IBM Research. And I want to tell you about a framework to help large language models be more accurate and more up to date: Retrieval-Augmented Generation, or RAG. Let's just talk about the \"Generation\" part for a minute. So forget the \"Retrieval-Augmented\". So the generation, this refers to large language models, or LLMs, that generate text in response to a user query, referred to as a prompt. These models can have some undesirable behavior. I want to tell you an anecdote to illustrate this. So my kids, they recently asked "
+    }
+  },
+  {
+    "id": "S25",
+    "kind": "video",
+    "title": "Is RAG Still Needed? Choosing the Best Approach for LLMs",
+    "url": "https://www.youtube.com/watch?v=UabBYexBD4k",
+    "domain": "youtube.com",
+    "publisher": "IBM Technology",
+    "authors": [],
+    "year": 2026,
+    "snippet": "Ready to become a certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (1,106,803 views)"
+      ]
+    },
+    "found_by": "RAG vs Fine Tuning LLMs which one to choose",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 670,
+    "channel": "IBM Technology",
+    "view_count": 1106803,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 355,
+      "end_seconds": 663,
+      "excerpt": "well, it existed in the data, but the LLM never saw it because the retrieval step didn't return the right results. With long context, there is no retrieval step. The model gets to see everything. Now, reason number three that is well, I think we're going to call this the whole book problem. A RAG is fundamentally designed to retrieve what exists. It relies on finding a semantic match between your query and a specific snippet of text in your database. But what if the answer lies in what's not in the database? So, so let's say you have a set of product requirements stored as a document and you'v"
+    }
+  },
+  {
+    "id": "S26",
+    "kind": "video",
+    "title": "RAG Explained For Beginners",
+    "url": "https://www.youtube.com/watch?v=_HQ2H_0Ayy0",
+    "domain": "youtube.com",
+    "publisher": "KodeKloud",
+    "authors": [],
+    "year": 2025,
+    "snippet": "Try RAG Hands-On Labs for Free - https://kode.wiki/4oANO8s Learn how RAG (Retrieval Augmented Generation) solves the ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (916,580 views)"
+      ]
+    },
+    "found_by": "Retrieval Augmented Generation RAG explained simply",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 609,
+    "channel": "KodeKloud",
+    "view_count": 916580,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 11,
+      "end_seconds": 315,
+      "excerpt": "this done? From your experience, you know that typical chat applications can't accept more than a dozen files. So, you have to use a different method to allow the AI to search, read, and understand the entire files. But how? Maybe you think you can create a clever algorithm to search the title of the documents and its contents to rank them by relevance. But you soon realize that that means that every time the user searches, it would need to search the entire 500 GB of documents. And this is a very inefficient way to get it done. So maybe you try to do something else by doing some pre-processin"
+    }
+  },
+  {
+    "id": "S27",
+    "kind": "video",
+    "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+    "url": "https://www.youtube.com/watch?v=zYGDpG-pTho",
+    "domain": "youtube.com",
+    "publisher": "IBM Technology",
+    "authors": [],
+    "year": 2025,
+    "snippet": "Ready to become a certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (743,229 views)"
+      ]
+    },
+    "found_by": "RAG vs Fine Tuning LLMs which one to choose",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 790,
+    "channel": "IBM Technology",
+    "view_count": 743229,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 315,
+      "end_seconds": 622,
+      "excerpt": "to make this solution work. All right, next up, fine tuning. So remember how we discussed getting better answers about me by training a model specifically on, let's say, my video transcripts. Well, that is fine tuning in action. So what we do with fine tuning is we take a model, but specifically an existing model. and that existing model has broad knowledge. And then we're gonna give it additional specialized training on a focused data set. So this is now specialized to what we want to develop particular expertise on. Now, during fine tuning, we're updating the model's internal parameters thro"
+    }
+  },
+  {
+    "id": "S28",
+    "kind": "video",
+    "title": "Introduction To Undertsanding RAG(Retrieval-Augmented Generation)",
+    "url": "https://www.youtube.com/watch?v=fZM3oX4xEyg",
+    "domain": "youtube.com",
+    "publisher": "Krish Naik",
+    "authors": [],
+    "year": 2025,
+    "snippet": "Retrieval-Augmented Generation (RAG) is the process of optimizing the output of a large language model, so it references an ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (515,264 views)"
+      ]
+    },
+    "found_by": "Retrieval Augmented Generation RAG explained simply",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 1240,
+    "channel": "Krish Naik",
+    "view_count": 515264,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 14,
+      "end_seconds": 319,
+      "excerpt": "is nothing but rag. If you don't know the full form of rag, it is called as retrieval augmented generation. In this specific video, we will try to understand what exactly is rag. uh what are the disadvantages of just using the LLM model and how we are overcoming those disadvantages with the help of rag when should we use rag and what are the important pipelines that we should take a note while developing a rag application okay so all this topics we will be discussing and as we go ahead we are going to implement each and every important pipelines with the help of Jupyter notebook and I will als"
+    }
+  },
+  {
+    "id": "S29",
+    "kind": "video",
+    "title": "RAG Explained | All about RAG - Retrieval Augmented Generation",
+    "url": "https://www.youtube.com/watch?v=dDkynerzV-Q",
+    "domain": "youtube.com",
+    "publisher": "codebasics",
+    "authors": [],
+    "year": 2026,
+    "snippet": "In almost all of the Gen AI engineer job posts, RAG is a common skill that employers ask for. RAG is an essential component in ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (130,446 views)"
+      ]
+    },
+    "found_by": "Retrieval Augmented Generation RAG explained simply",
+    "retrieved_at": "2026-11-07T17:08:57.097779Z",
+    "isbn": null,
+    "duration_seconds": 876,
+    "channel": "codebasics",
+    "view_count": 130446,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 337,
+      "end_seconds": 639,
+      "excerpt": "only the relevant chunks. So, this way LLM will not hallucinate, and it will give you accurate answer. That takes us into our next segment, which is the two major benefits of rag. The first one is the answers that you get will be highly accurate, and the chances of hallucination will reduce because you are grounding your responses in the knowledge, in the source of truth. Second, it is very cost-effective because if you pass the entire context, then you are sending too many tokens to LLM, and these LLM APIs, they charge you per token. So, if you send less number of tokens, only the relevant kn"
+    }
+  }
+]

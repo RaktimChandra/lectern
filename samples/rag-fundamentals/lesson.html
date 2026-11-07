@@ -1,0 +1,193 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Retrieval-Augmented Generation (RAG) Fundamentals</title><style>
+:root { --ink:#1C2533; --muted:#5B6878; --rule:#D5DCE3; --marker:#F2D24B; }
+* { box-sizing: border-box; }
+body { margin:0; background:#EEF1F4; color:var(--ink); font:18px/1.65 Georgia, 'Source Serif 4', serif; }
+main { max-width: 760px; margin: 40px auto; background:#fff; padding: 56px 64px; box-shadow: 0 1px 2px rgba(28,37,51,.12); }
+h1 { font-size: 34px; line-height: 1.2; margin: 0 0 16px; }
+h2 { font-size: 24px; margin: 48px 0 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.meta, .min { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); }
+.objective { border-left: 4px solid var(--marker); padding: 4px 0 4px 16px; margin: 24px 0; }
+table { border-collapse: collapse; width: 100%; font: 15px/1.4 system-ui, sans-serif; }
+td, th { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; }
+pre { background: #F4F6F8; padding: 14px 16px; overflow-x: auto; font: 14px/1.5 ui-monospace, Consolas, monospace; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .88em; }
+sup a { text-decoration: none; font: 12px system-ui, sans-serif; color: #2B59C3; }
+.q { margin: 20px 0; } .q ol { list-style: upper-alpha; }
+details { font: 15px/1.5 system-ui, sans-serif; color: var(--muted); }
+.notes { font: 15px/1.5 system-ui, sans-serif; background: #F7F8FA; padding: 10px 14px; border-left: 3px solid var(--rule); }
+.refs li { font-size: 15px; margin-bottom: 6px; word-break: break-word; }
+@media print { body { background: #fff; } main { box-shadow: none; margin: 0; padding: 0; } details { display: block; }
+  details > summary { display: none; } h2 { break-after: avoid; } pre, .q { break-inside: avoid; } }
+</style></head><body><main>
+<h1>Retrieval-Augmented Generation (RAG) Fundamentals</h1>
+<p class='meta'>45 minutes. Beginner. Self-paced. Version 1, 7 November 2026.</p>
+<p>You will learn how retrieval-augmented generation supplies dynamic context to language models to generate grounded responses with citations. You will also analyze key architectural trade-offs to decide when to deploy RAG instead of fine-tuning model weights.</p>
+<div class='objective'><strong>Learning objective.</strong> Explain how retrieval-augmented generation grounds a language model&#x27;s answers in retrieved documents, and identify when RAG is a better choice than fine-tuning.
+<ul><li>Explain the step-by-step workflow of a standard RAG pipeline (retrieval, augmentation, and generation).</li><li>Explain how injecting retrieved context reduces hallucinations and provides source grounding in language model outputs.</li><li>Distinguish between the operational mechanisms of RAG (dynamic context retrieval) and fine-tuning (weight updates via training).</li><li>Identify appropriate use cases where RAG is preferred over fine-tuning based on data volatility, cost, latency, and attribution requirements.</li></ul>
+</div>
+<table><thead><tr><th>Part</th><th>Section</th><th>Minutes</th></tr></thead><tbody>
+<tr><td>1</td><td>The Stale Fact Problem</td><td>5</td></tr>
+<tr><td>2</td><td>The Three Steps of a RAG Pipeline</td><td>7</td></tr>
+<tr><td>3</td><td>Grounding and Mitigating Hallucinations</td><td>6</td></tr>
+<tr><td>4</td><td>Tracing a Customer Support RAG Query</td><td>6</td></tr>
+<tr><td>5</td><td>RAG vs. Fine-Tuning: Weights vs. Context</td><td>7</td></tr>
+<tr><td>6</td><td>Evaluate AI Architecture Scenarios</td><td>5</td></tr>
+<tr><td>7</td><td>Knowledge Check: RAG Fundamentals</td><td>5</td></tr>
+<tr><td>8</td><td>Summary and Core Takeaways</td><td>4</td></tr>
+<tr><td></td><th>Total</th><th>45</th></tr></tbody></table>
+<h2 id='sec-1'>1. The Stale Fact Problem <span class='min'>5 min</span></h2>
+<p>Imagine you deploy a standard large language model (LLM) as an internal company assistant to help employees navigate company policies <sup><a href="#ref-S13">[S13]</a></sup>. An employee asks: &quot;What is our travel reimbursement cap for domestic flights this quarter?&quot; The model answers immediately and authoritatively: &quot;The domestic travel reimbursement limit is $350 per ticket, submitted via Form T-4.&quot; The response sounds completely plausible, professional, and confident <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S16">[S16]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>.</p>
+<p>There is only one problem: your company raised that cap to $500 last month and discontinued Form T-4 entirely. The model did not lie out of malice. Rather, its static training data is frozen at a specific point in time <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. A standalone language model has no awareness of events, policy changes, or proprietary documents that appeared after its training cutoff or outside its training corpus <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</p>
+<p>When a model encounters a question about facts outside its training data, it attempts to generate fluent text based on probabilistic word associations rather than real information <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>. This condition is called hallucination: generating false or misleading statements presented convincingly as true facts <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S16">[S16]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>. If an internal chatbot fabricates human resources guidelines or IT security procedures, the business faces compliance violations, wasted employee hours, and broken trust <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</p>
+<p>You cannot solve this problem simply by expecting a generic pre-trained model to know your private enterprise records <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. The model's internal memory represents a snapshot of the past <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. To produce dependable answers, the system needs a mechanism to access current, authoritative sources when a query arrives <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</p>
+
+<h2 id='sec-2'>2. The Three Steps of a RAG Pipeline <span class='min'>7 min</span></h2>
+<p>Retrieval-augmented generation (RAG) is a technique that enables large language models to retrieve and incorporate information from external data sources before generating a response <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. Instead of relying only on static training data, RAG connects the language model to external storage, such as a document repository or vector database <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S15">[S15]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>.</p>
+<p>A standard RAG workflow executes in three distinct steps without modifying the underlying model <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>:</p>
+<ol>
+<li>
+<p><strong>Retrieval</strong>: When you submit a query, the system searches an external knowledge source for the most relevant document snippets <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>. To do this, an ingestion pipeline parses raw documents, creates vector embeddings, and stores these numerical representations in a database <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>. The retrieval module matches the user's query against this repository to pull relevant excerpts <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>.</p>
+</li>
+<li>
+<p><strong>Augmentation</strong>: The system merges the retrieved text snippets directly with your original input query into a structured prompt <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>. This process is known as prompt augmentation or prompt stuffing <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>. It places the retrieved external evidence early in the context window <sup><a href="#ref-S7">[S7]</a></sup>. By supplying this fresh context alongside the user's question, the prompt guides the language model toward relevant evidence <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S8">[S8]</a></sup>.</p>
+</li>
+<li>
+<p><strong>Generation</strong>: The augmented prompt passes to the LLM <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>. The model reads both your question and the injected context, generating a cohesive, natural-language response based on that provided material <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>.</p>
+</li>
+</ol>
+<p>A critical detail about this workflow is that RAG does not update, retrain, or modify the language model's internal weights <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S9">[S9]</a></sup>. The model acts as an engine that reads the supplied text in real time <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S7">[S7]</a></sup>. Its parameters remain completely unchanged throughout both the retrieval and generation phases <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S8">[S8]</a></sup>.</p>
+
+<h2 id='sec-3'>3. Grounding and Mitigating Hallucinations <span class='min'>6 min</span></h2>
+<p>To understand why RAG improves reliability, you must understand grounding. Grounding is the process of anchoring a model's generated response to verified, authoritative external data <sup><a href="#ref-S1">[S1]</a></sup><sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. When you inject retrieved context directly into the prompt, the model no longer relies purely on memorized associations from its original training <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S8">[S8]</a></sup>.</p>
+<p>Context injection provides source grounding by giving the model concrete facts inside its prompt context window <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. System prompts instruct the LLM to answer using exclusively the supplied context and to cite the specific document or passage supporting each claim <sup><a href="#ref-S14">[S14]</a></sup>. This instruction forces the model to construct statements directly from identifiable source text rather than inventing unsupported assertions <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</p>
+<p>By grounding responses in retrieved snippets, RAG significantly reduces hallucinations <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. When the model does not possess private facts in its training distribution, the prompt supplies those facts dynamically <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. This approach improves faithfulness, meaning the output remains loyal to the provided reference materials <sup><a href="#ref-S14">[S14]</a></sup>.</p>
+<p>However, you must avoid a common misconception: RAG does not completely eliminate hallucinations <sup><a href="#ref-S9">[S9]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. It mitigates them substantially, but errors can still occur <sup><a href="#ref-S9">[S9]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>. Hallucinations persist under two primary failure modes:</p>
+<ul>
+<li><strong>Retrieval failure</strong>: If the search mechanism returns irrelevant, incomplete, or poorly chunked text snippets, the model lacks the true facts needed to respond accurately <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. A language model cannot ground its output in information that the retriever failed to find <sup><a href="#ref-S9">[S9]</a></sup><sup><a href="#ref-S10">[S10]</a></sup>.</li>
+<li><strong>Generation failure</strong>: Even when provided with correct source text, a generative model can misinterpret nuanced phrasing, blend facts improperly, or generate plausible-sounding falsehoods if it ignores the prompt instructions <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</li>
+</ul>
+<p>Evaluating a RAG system therefore requires testing both retrieval accuracy (precision and recall) and generation faithfulness independently <sup><a href="#ref-S10">[S10]</a></sup>.</p>
+
+<h2 id='sec-4'>4. Tracing a Customer Support RAG Query <span class='min'>6 min</span></h2>
+<p>Let us walk through a complete query inside an enterprise customer support pipeline <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>.</p>
+<h3>Step 1: Incoming User Query</h3>
+<p>A customer submits a specific question through a web portal:</p>
+<pre><code class="language-text">&quot;What is the warranty policy for water damage on the AquaSeal Speaker?&quot;
+</code></pre>
+<h3>Step 2: Retrieval</h3>
+<p>The retrieval system converts the query into a numerical vector, queries the support document database, and extracts the top-scoring text chunk <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S28">[S28]</a></sup>:</p>
+<pre><code class="language-text">[Doc ID: WARR-204]
+&quot;AquaSeal Speaker Limited Warranty: Water damage is covered for up to 12 months from purchase if the rubber port cover remained fully sealed during exposure. Accidental submersion past 1 meter void all replacement claims.&quot;
+</code></pre>
+<h3>Step 3: Prompt Augmentation</h3>
+<p>The application combines the retrieved snippet and the customer's query into an augmented prompt template <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>:</p>
+<pre><code class="language-text">Answer the question using ONLY the provided context. Cite the source for each claim.
+
+Context:
+[Doc ID: WARR-204] AquaSeal Speaker Limited Warranty: Water damage is covered for up to 12 months from purchase if the rubber port cover remained fully sealed during exposure. Accidental submersion past 1 meter voids all replacement claims.
+
+Question: What is the warranty policy for water damage on the AquaSeal Speaker?
+Answer with citations:
+</code></pre>
+<h3>Step 4: Grounded Generation</h3>
+<p>The LLM processes the complete augmented text and generates the final output <sup><a href="#ref-S7">[S7]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>:</p>
+<pre><code class="language-text">Water damage on the AquaSeal Speaker is covered for up to 12 months from the date of purchase, provided that the rubber port cover was completely sealed during exposure [Doc ID: WARR-204]. However, warranty replacement is void if the speaker was submerged deeper than 1 meter [Doc ID: WARR-204].
+</code></pre>
+<p>The resulting output is directly verifiable <sup><a href="#ref-S14">[S14]</a></sup>. Every factual assertion links to <code>[Doc ID: WARR-204]</code>, allowing both the user and support agents to confirm that the generated answer matches the source document <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</p>
+
+<h2 id='sec-5'>5. RAG vs. Fine-Tuning: Weights vs. Context <span class='min'>7 min</span></h2>
+<p>Engineering teams frequently debate whether to use RAG or fine-tuning. To choose correctly, you must contrast their core operational mechanisms <sup><a href="#ref-S9">[S9]</a></sup><sup><a href="#ref-S10">[S10]</a></sup>.</p>
+<h3>Parametric Memory vs. In-Context Retrieval</h3>
+<p>Fine-tuning is a machine learning process where you train a base language model further on domain-specific datasets <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>. This process directly alters the internal parameters (weights) of the neural network <sup><a href="#ref-S12">[S12]</a></sup>. The knowledge acquired during fine-tuning becomes embedded in the model's parametric memory <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</p>
+<p>RAG does not touch model weights <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S8">[S8]</a></sup>. Instead, it uses in-context learning <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S7">[S7]</a></sup>. The model's weights remain frozen, and knowledge is supplied dynamically inside the input prompt at query time <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</p>
+<h3>Decision Criteria</h3>
+<p>Evaluate four key dimensions when selecting an architecture <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Dimension</th>
+<th style="text-align:left">Retrieval-Augmented Generation (RAG)</th>
+<th style="text-align:left">Fine-Tuning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Data Volatility</strong></td>
+<td style="text-align:left"><strong>Excellent for dynamic data</strong>: Update the database instantly without retraining the model <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>.</td>
+<td style="text-align:left"><strong>Poor for dynamic data</strong>: Knowledge is frozen at the training run. Updating facts requires retraining <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Attribution &amp; Audit</strong></td>
+<td style="text-align:left"><strong>High</strong>: Injected text chunks allow direct source citations and clear verification <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</td>
+<td style="text-align:left"><strong>Low</strong>: The model outputs answers from internal weights without verifiable source pointers <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Cost Profile</strong></td>
+<td style="text-align:left"><strong>Low upfront cost</strong>: Involves document ingestion and indexing; ongoing costs come from retrieval infrastructure and token usage <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>.</td>
+<td style="text-align:left"><strong>High upfront cost</strong>: Requires GPU compute, curated training datasets (e.g., hundreds of paired examples), and ML tuning time <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Primary Objective</strong></td>
+<td style="text-align:left"><strong>Information access</strong>: Best for injecting proprietary documents, real-time news, or changing policies <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</td>
+<td style="text-align:left"><strong>Behavior and form</strong>: Best for teaching tone, specialized formatting, style guidelines, or specific task syntax <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</td>
+</tr>
+</tbody>
+</table>
+<p>A frequent misconception is that fine-tuning is an effective way to keep an LLM up to date with fresh facts <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. It is not. Fine-tuning to ingest daily factual updates is slow, expensive, and risks model degradation <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. When your priority is factual accuracy and dynamic knowledge, RAG is the appropriate architectural choice <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</p>
+
+<h2 id='sec-6'>6. Evaluate AI Architecture Scenarios <span class='min'>5 min</span></h2>
+<p>Analyze the three real-world engineering scenarios below. For each scenario, choose whether <strong>RAG</strong> or <strong>Fine-Tuning</strong> is the appropriate primary architecture.</p>
+<h3>Scenario 1: Hospital Clinical Guidelines Assistant</h3>
+<p>A hospital network wants an AI tool to answer physician queries regarding clinical treatment protocols and pharmaceutical formularies. Formularies and treatment policies update weekly, and medical compliance mandates that every recommendation display direct citations to approved medical literature.</p>
+<h3>Scenario 2: Legal Drafting Tone and Style Alignment</h3>
+<p>A boutique law firm wants an AI system that takes raw case outlines and converts them into formal appellate brief arguments. The factual arguments change per client, but the brief must strictly follow the firm's unique writing voice, specific structural syntax, and legal phrasing conventions.</p>
+<h3>Scenario 3: E-Commerce Product Inventory Assistant</h3>
+<p>An online retail platform needs an automated assistant to answer shopper questions regarding item availability, current discount codes, return windows, and warehouse shipping constraints across millions of products.</p>
+<hr />
+<h3>Self-Check Rationale</h3>
+<p>Review your selections against the architectural criteria below:</p>
+<ol>
+<li><strong>Scenario 1 requires RAG</strong>. The knowledge base changes weekly (high data volatility), and medical compliance demands explicit source citations for auditing <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. Fine-tuning cannot accommodate weekly factual updates efficiently or provide direct document citations <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</li>
+<li><strong>Scenario 2 requires Fine-Tuning</strong>. The goal is modifying model behavior, tone, style, and syntax rather than retrieving rapidly changing reference data <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>. Training model weights on historical firm briefs embeds the firm's characteristic writing style directly into the model <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</li>
+<li><strong>Scenario 3 requires RAG</strong>. Stock levels, discount codes, and inventory availability shift continuously <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. Real-time retrieval from product databases ensures answers reflect the current state without retraining models <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</li>
+</ol>
+
+<h2 id='sec-7'>7. Knowledge Check: RAG Fundamentals <span class='min'>5 min</span></h2>
+<p>Answer the multiple-choice questions below to test your understanding of RAG components, grounding mechanisms, and architectural decision criteria.</p>
+
+<div class='q'><p><strong>Question 1.</strong> What happens to a large language model&#x27;s internal parameters (weights) during a standard RAG workflow?</p><ol><li>The weights are updated continuously as new context snippets are parsed.</li><li>The attention head weights are recalibrated to store the retrieved context.</li><li>The model weights are fine-tuned temporarily for the duration of the query session.</li><li>The weights remain completely unchanged during both retrieval and generation.</li></ol><details><summary>Show answer</summary><p><strong>D.</strong> RAG does not modify, train, or update the language model&#x27;s internal weights. It uses in-context learning by inserting retrieved facts directly into the prompt while keeping model parameters frozen.</p></details></div>
+<div class='q'><p><strong>Question 2.</strong> Which statement correctly describes how RAG impacts model hallucinations?</p><ol><li>RAG mitigates hallucinations by grounding responses in retrieved evidence, though errors can still occur if retrieval fails.</li><li>RAG completely eliminates hallucinations because an LLM cannot hallucinate when context is provided.</li><li>RAG shifts hallucination risk from the retrieval step entirely to the vector database indexing stage.</li><li>RAG increases hallucination rates because stuffing prompts with context confuses the model&#x27;s reasoning logic.</li></ol><details><summary>Show answer</summary><p><strong>A.</strong> RAG anchors output in external facts, reducing hallucinations significantly. However, it does not completely eliminate them: incorrect or incomplete retrievals as well as generation errors can still cause false statements.</p></details></div>
+<div class='q'><p><strong>Question 3.</strong> An engineering team needs an AI assistant for company HR policies that change every two weeks. Why is RAG a better architectural choice than fine-tuning for this system?</p><ol><li>RAG compresses policy documents into internal model parameters faster than fine-tuning.</li><li>Fine-tuning cannot teach models complex reasoning skills required for policy comprehension.</li><li>RAG eliminates the operational infrastructure cost of running database lookups.</li><li>Fine-tuning embeds facts into static weights, requiring costly periodic retraining for every policy change.</li></ol><details><summary>Show answer</summary><p><strong>D.</strong> Fine-tuning freezes knowledge into model weights during training. For rapidly changing data, fine-tuning requires frequent, expensive retraining runs, whereas RAG updates instantly by modifying the external document store.</p></details></div>
+<div class='q'><p><strong>Question 4.</strong> In a standard three-step RAG pipeline, what is the specific role of the &#x27;augmentation&#x27; step?</p><ol><li>Combining the user&#x27;s initial query with the retrieved context snippets into a structured prompt.</li><li>Expanding the vector database index with new user-generated feedback embeddings.</li><li>Generating new synthetic training records to retrain the foundation model.</li><li>Evaluating whether the final generated output matches the style of the system prompt.</li></ol><details><summary>Show answer</summary><p><strong>A.</strong> Prompt augmentation takes the user&#x27;s initial question and merges it with retrieved document snippets into an enriched prompt for the language model to read.</p></details></div>
+<h2 id='sec-8'>8. Summary and Core Takeaways <span class='min'>4 min</span></h2>
+<p>Retrieval-augmented generation pairs the natural language fluency of large language models with the precision of external databases <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</p>
+<p>Remember the core structural elements of this architecture:</p>
+<ul>
+<li><strong>The Three-Step Workflow</strong>: RAG executes through retrieval of relevant documents, prompt augmentation with retrieved context, and grounded generation of the final answer <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S27">[S27]</a></sup>.</li>
+<li><strong>Weights Remain Untouched</strong>: RAG relies on in-context learning rather than updating the neural network's parametric weights <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>. Fine-tuning adjusts weights through training, whereas RAG dynamically supplies information at runtime <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</li>
+<li><strong>Grounding Reduces Hallucinations</strong>: Providing reference text anchors the model's output in verifiable evidence, enabling verifiable citations <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. However, RAG mitigates hallucinations rather than eliminating them entirely, as retrieval errors or generation slips can still occur <sup><a href="#ref-S9">[S9]</a></sup><sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</li>
+<li><strong>Selection Criteria</strong>: Choose RAG when your data is volatile, when you need strict source attribution, and when you want to avoid recurring model retraining costs <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. Reserve fine-tuning for adapting style, tone, and specific behavioral syntax <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</li>
+</ul>
+
+<h2>Watch next</h2><p class='meta'>Optional, outside the 45 minutes.</p><ul>
+<li><a href='https://www.youtube.com/watch?v=T-D1OfcDW1M'>What is Retrieval-Augmented Generation (RAG)?</a> (IBM Technology, 6:36). Watch 0:07 to 5:10. This video provides a concise overview of the core retrieval-augmented generation workflow and why external knowledge sources are necessary.</li>
+<li><a href='https://www.youtube.com/watch?v=zYGDpG-pTho'>RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models</a> (IBM Technology, 13:10). Watch 5:15 to 10:22. This video clearly breaks down the operational differences between RAG, fine-tuning, and prompt engineering.</li>
+</ul>
+<h2>References</h2><ol class='refs' style='list-style:none;padding:0'>
+<li id='ref-S1'>[S1] cloud.google.com. Using Vertex AI Grounding with Google Search | Google Cloud Blog. <a href='https://cloud.google.com/blog/products/ai-machine-learning/using-vertex-ai-grounding-with-google-search'>https://cloud.google.com/blog/products/ai-machine-learning/using-vertex-ai-grounding-with-google-search</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S4'>[S4] arxiv.org. Retrieval-Augmented Generation for Knowledge-Intensive .... <a href='https://arxiv.org/pdf/2005.11401'>https://arxiv.org/pdf/2005.11401</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S7'>[S7] en.wikipedia.org. Retrieval-augmented generation - Wikipedia. <a href='https://en.wikipedia.org/wiki/Retrieval-augmented_generation'>https://en.wikipedia.org/wiki/Retrieval-augmented_generation</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S8'>[S8] glean.com. RAG vs fine-tuning: when to use each (decision guide). <a href='https://www.glean.com/blog/retrieval-augemented-generation-vs-fine-tuning'>https://www.glean.com/blog/retrieval-augemented-generation-vs-fine-tuning</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S9'>[S9] b-eye.com. RAG vs. Fine Tuning | B EYE. <a href='https://b-eye.com/blog/rag-vs-fine-tuning'>https://b-eye.com/blog/rag-vs-fine-tuning</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S10'>[S10] azion.com. Fine-tuning vs RAG | Azion. <a href='https://www.azion.com/en/learning/ai/fine-tuning-vs-rag'>https://www.azion.com/en/learning/ai/fine-tuning-vs-rag</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S12'>[S12] intersog.co.il. Full Guide to Choosing the Right AI Stack. Part 1: RAG vs. Fine-Tuning vs. Hybrid - Intersog Israel. <a href='https://intersog.co.il/blog/full-guide-to-choosing-the-right-ai-stack-part-1-rag-vs-fine-tuning-vs-hybrid/index.html'>https://intersog.co.il/blog/full-guide-to-choosing-the-right-ai-stack-part-1-rag-vs-fine-tuning-vs-hybrid/index.html</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S13'>[S13] montecarlo.ai. RAG Vs. Fine Tuning: Which One Should You Choose?. <a href='https://montecarlo.ai/blog-rag-vs-fine-tuning'>https://montecarlo.ai/blog-rag-vs-fine-tuning</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S14'>[S14] reddit.com. Essential Concepts for Retrieval-Augmented Generation (RAG) : r/Rag. <a href='https://www.reddit.com/r/Rag/comments/1r6f8a8/essential_concepts_for_retrievalaugmented'>https://www.reddit.com/r/Rag/comments/1r6f8a8/essential_concepts_for_retrievalaugmented</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S15'>[S15] Retrieval-augmented generation (Wikipedia). <a href='https://en.wikipedia.org/wiki/Retrieval-augmented_generation'>https://en.wikipedia.org/wiki/Retrieval-augmented_generation</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S16'>[S16] Hallucination (artificial intelligence) (Wikipedia). <a href='https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)'>https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S24'>[S24] Video: “What is Retrieval-Augmented Generation (RAG)?” (IBM Technology, 2023, 6:36). Most relevant part: 0:07 to 5:10. <a href='https://www.youtube.com/watch?v=T-D1OfcDW1M'>https://www.youtube.com/watch?v=T-D1OfcDW1M</a></li>
+<li id='ref-S27'>[S27] Video: “RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models” (IBM Technology, 2025, 13:10). Most relevant part: 5:15 to 10:22. <a href='https://www.youtube.com/watch?v=zYGDpG-pTho'>https://www.youtube.com/watch?v=zYGDpG-pTho</a></li>
+<li id='ref-S28'>[S28] Video: “Introduction To Undertsanding RAG(Retrieval-Augmented Generation)” (Krish Naik, 2025, 20:40). Most relevant part: 0:14 to 5:19. <a href='https://www.youtube.com/watch?v=fZM3oX4xEyg'>https://www.youtube.com/watch?v=fZM3oX4xEyg</a></li>
+</ol></main></body></html>

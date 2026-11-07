@@ -1,0 +1,670 @@
+[
+  {
+    "id": "S1",
+    "kind": "web",
+    "title": "RFC 9110: HTTP Semantics | RFC Editor",
+    "url": "https://www.rfc-editor.org/info/rfc9110",
+    "domain": "rfc-editor.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "#### 9.2.2.Idempotent Methods\n\nA request method is considered \"idempotent\" if the intended effect on the server of multiple identical requests with that method is the same as the effect for a single such request. Of the request methods defined by this specification, PUT, DELETE, and safe request methods are idempotent.¶\n\nLike the definition of safe, the idempotent property only applies to what has been requested by the user; a server is free to log each request separately, retain a revision control history, or implement other non-idempotent side effects for each idempotent request.¶ [...] A ne",
+    "reliability": {
+      "tier": "primary",
+      "score": 0.97,
+      "reasons": [
+        "IETF RFC (the published standard)"
+      ]
+    },
+    "found_by": "RFC 9110 HTTP Semantics GET method safe idempotent",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S2",
+    "kind": "web",
+    "title": "HTTP request methods - HTTP | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods",
+    "domain": "developer.mozilla.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "| Method | Safe | Idempotent | Cacheable |\n ---  --- |\n| `GET` | Yes | Yes | Yes |\n| `QUERY` | Yes | Yes | Yes |\n| `HEAD` | Yes | Yes | Yes |\n| `OPTIONS` | Yes | Yes | No |\n| `TRACE` | Yes | Yes | No |\n| `PUT` | No | Yes | No |\n| `DELETE` | No | Yes | No |\n| `POST` | No | No | Conditional\\ |\n| `PATCH` | No | No | Conditional\\ |\n| `CONNECT` | No | No | No |\n\n\\ `POST` and `PATCH` are cacheable when responses explicitly include freshness information and a matching `Content-Location` header.\n\n## Specifications\n\n| Specification |\n\n| HTTP Semantics # OPTIONS |\n| HTTP Semantics # PUT |\n| HTTP Semanti",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "MDN Web Docs (maintained reference for web platform)"
+      ]
+    },
+    "found_by": "MDN HTTP methods GET vs POST comparison caching security",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S3",
+    "kind": "web",
+    "title": "HTTP response status codes - HTTP | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status",
+    "domain": "developer.mozilla.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Skip to search\n\nToggle sidebar \n\n1. Web\n2. HTTP\n3. Reference\n4. HTTP response status codes\n\n \n\nRemember language   Learn more\n\n Deutsch\n English (US)\n Español\n Français\n 日本語\n 한국어\n Português (do Brasil)\n Русский\n 中文 (简体)\n 正體中文 (繁體)\n\n# HTTP response status codes\n\nHTTP response status codes indicate whether a specific HTTP request has been successfully completed. Responses are grouped in five classes:\n\n1. Informational responses (`100` – `199`)\n2. Successful responses (`200` – `299`)\n3. Redirection messages (`300` – `399`)\n4. Client error responses (`400` – `499`)\n5. Server error responses (`500`",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "MDN Web Docs (maintained reference for web platform)"
+      ]
+    },
+    "found_by": "MDN HTTP response status codes 200 404 500 error classification",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S4",
+    "kind": "web",
+    "title": "500 Internal Server Error - HTTP | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/500",
+    "domain": "developer.mozilla.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Skip to search\n\nToggle sidebar \n\n1. Web\n2. HTTP\n3. Reference\n4. HTTP response status codes\n5. 500 Internal Server Error\n\n \n\nRemember language   Learn more\n\n Deutsch\n English (US)\n Español\n Français\n 日本語\n 한국어\n Português (do Brasil)\n Русский\n 中文 (简体)\n 正體中文 (繁體)\n\n# 500 Internal Server Error\n\nThe HTTP `500 Internal Server Error` server error response status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request. This error is a generic \"catch-all\" response to server issues, indicating that the server cannot find a more appropriate 5XX error",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "MDN Web Docs (maintained reference for web platform)"
+      ]
+    },
+    "found_by": "MDN HTTP response status codes 200 404 500 error classification",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S5",
+    "kind": "web",
+    "title": "HTTP messages - HTTP | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages",
+    "domain": "developer.mozilla.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Both requests and responses share a similar structure:\n\n1. A start-line is a single line that describes the HTTP version along with the request method or the outcome of the request.\n2. An optional set of HTTP headers containing metadata that describes the message. For example, a request for a resource might include the allowed formats of that resource, while the response might include headers to indicate the actual format returned.\n3. An empty line indicating the metadata of the message is complete.\n4. An optional body containing data associated with the message. This might be POST data to sen",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "MDN Web Docs (maintained reference for web platform)"
+      ]
+    },
+    "found_by": "HTTP Requests and Responses",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S6",
+    "kind": "web",
+    "title": "RFC9110",
+    "url": "https://httpwg.org/specs/rfc9110.html",
+    "domain": "httpwg.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "The response to a HEAD request is cacheable; a cache _MAY_ use it to satisfy subsequent HEAD requests unless otherwise indicated by the Cache-Control header field (Section 5.2 of ( A HEAD response might also affect previously cached responses to GET; see Section 4.3.5 of (\n\n#### 9.3.3.POST\n\nThe POST method requests that the target resource process the representation enclosed in the request according to the resource's own specific semantics. For example, POST is used for the following functions (among others): [...] Providing a block of data, such as the fields entered into an HTML form, to a d",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "HTTP Working Group (IETF)"
+      ]
+    },
+    "found_by": "RFC 9110 HTTP Semantics POST method request body",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S7",
+    "kind": "web",
+    "title": "Response: status property - Web APIs | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/API/Response/status",
+    "domain": "developer.mozilla.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Skip to search\n\nToggle sidebar \n\n1. Web\n2. Web APIs\n3. Response\n4. status\n\n \n\nRemember language   Learn more\n\n Deutsch\n English (US)\n Español\n Français\n 日本語\n Русский\n 中文 (简体)\n\n# Response: status property\n\n \n\nBaseline\n\nWidely available\n\nThis feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.\n\n See full compatibility\n Learn more\n\nNote: This feature is available in Web Workers.\n\nThe `status` read-only property of the `Response` interface contains the HTTP status code of the response.\n\nFor example, `200` for success",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.9,
+      "reasons": [
+        "MDN Web Docs (maintained reference for web platform)"
+      ]
+    },
+    "found_by": "MDN HTTP response status codes 200 404 500 error classification",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S8",
+    "kind": "web",
+    "title": "CS 304 GET versus POST",
+    "url": "https://cs.wellesley.edu/~cs304node/readings/get-versus-post",
+    "domain": "cs.wellesley.edu",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "# GET versus POST¶\n\nThe distinction between GET and POST arises in the front end, when we have to choose a method for our  elements, and it arises in the back end when we have to respond to different request methods. So, you might end up coming back to this reading from time to time.\n\n Request Methods\n GET versus POST\n Forms and GET versus POST\n Express and GET versus POST\n Usage of GET versus POST\n Caches\n\n## Request Methods¶\n\nThe vast majority of web requests are trying to get an HTML page from the server, or, more generally getting a resource, whether an HTML file, CSS file, JS file, image ",
+    "reliability": {
+      "tier": "academic",
+      "score": 0.85,
+      "reasons": [
+        "Academic institution domain"
+      ]
+    },
+    "found_by": "MDN HTTP methods GET vs POST comparison caching security",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S9",
+    "kind": "web",
+    "title": "Hypertext Transfer Protocol (HTTP) Status Code Registry",
+    "url": "https://www.iana.org/assignments/http-status-codes",
+    "domain": "iana.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "Homepage\n\n Domains\n Protocols\n Numbers\n About\n\n# Hypertext Transfer Protocol (HTTP) Status Code Registry\n\n### Last Updated\n\n 2025-09-15\n\n### Available Formats\n\n XML\n HTML\n TXT\n\n## HTTP Status Codes\n\n### Registration Procedure(s)\n\n IETF Review\n\n### Reference\n\n RFC 9110, Section 16.2.1: HTTP Semantics\n\n### Note\n\n```\n1xx: Informational - Request received, continuing process 2xx: Success - The action was successfully received, understood, and accepted 3xx: Redirection - Further action must be taken in order to complete the request 4xx: Client Error - The request contains bad syntax or cannot be fu",
+    "reliability": {
+      "tier": "official_docs",
+      "score": 0.8,
+      "reasons": [
+        "Identified as authoritative for this topic during research planning"
+      ]
+    },
+    "found_by": "RFC 9110 Status Codes 2xx 4xx 5xx definitions",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S10",
+    "kind": "web",
+    "title": "HTTP Requests and Responses Explained",
+    "url": "https://codefinity.com/blog/HTTP-Requests-and-Responses-Explained",
+    "domain": "codefinity.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "## HTTP Requests\n\nHTTP requests are made by a client to request an action on a resource identified by a URI (Uniform Resource Identifier). There are several types of HTTP requests, each designed for specific actions:\n\n GET: Requests data from a specified resource.\n POST: Submits data to be processed to a specified resource.\n PUT: Updates a specified resource with the data provided.\n DELETE: Deletes a specified resource.\n HEAD: Similar to GET, but it requests only the headers and status line, not the body of the response.\n PATCH: Applies partial modifications to a resource.\n OPTIONS: Returns th",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "HTTP Requests and Responses",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S11",
+    "kind": "web",
+    "title": "GET vs POST: Understanding HTTP Request Methods",
+    "url": "https://blog.postman.com/get-vs-post",
+    "domain": "blog.postman.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "```\nGET /login?username=admin&password=secret123\n```\n\nThis exposes credentials in browser history, server logs, proxy logs, and referrer headers.\n\n✅ Good practice:\n\n```\nPOST /login HTTP/1.1 Content-Type: application/json { \"username\": \"admin\", \"password\": \"secret123\" }\n```\n\nCombined with HTTPS, POST keeps credentials encrypted and out of logs.\n\n### Caching behavior\n\nGET requests are designed to be cached by browsers and CDNs, improving performance for frequently accessed data. POST requests typically aren’t cached because they usually trigger actions or modify resources.\n\n## Testing method beh",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "MDN HTTP methods GET vs POST comparison caching security",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S12",
+    "kind": "web",
+    "title": "HTTP Status Codes (2xx / 4xx / 5xx) — Definition | FourSight Glossary",
+    "url": "https://foursight.cloud/glossary/http-status-codes",
+    "domain": "foursight.cloud",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "# HTTP Status Codes (2xx / 4xx / 5xx)\n\nThree-digit response codes returned by HTTP servers. 2xx = success, 3xx = redirect, 4xx = client error (bad request), 5xx = server error. Monitoring tools alert on 4xx/5xx codes.\n\n## Sources\n\nIETF — RFC 9110 §15 — Status Codes (\n\nMDN Web Docs — HTTP response status codes (\n\n## Start monitoring free — HTTP + Ping checks, 3 regions, no card\n\nThe Free plan includes 5 monitors with HTTP and Ping checks from 3 of the 4 probe regions, 5 minute intervals, and email alerts — $0, no credit card, commercial use allowed. Hosted status pages and the fourth region sta",
+    "reliability": {
+      "tier": "unknown",
+      "score": 0.5,
+      "reasons": [
+        "No reputation data for this site"
+      ]
+    },
+    "found_by": "RFC 9110 Status Codes 2xx 4xx 5xx definitions",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S13",
+    "kind": "web",
+    "title": "📡 HTTP Request & Response Explained",
+    "url": "https://medium.com/@nikhilpatidar01/http-request-response-explained-cc7c30993967",
+    "domain": "medium.com",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "### # Common HTTP Methods\n\n| Method | Purpose | Typical Use |  \n --------------------------   \n| `GET` | Retrieve a resource | Load a page |  \n| `POST` | Send data to server | Form submission |  \n| `PUT` | Replace/update a resource | Profile update |  \n| `DELETE` | Remove a resource | Delete post |  \n| `PATCH` | Partial update | Edit title only |  \n| `OPTIONS` | Discover supported methods | CORS preflight |  \n| `HEAD` | Get headers only | Check status without downloading |\n\n## What is an HTTP Response?\n\nThe HTTP Response is the server’s reply to the request, containing the requested data or an",
+    "reliability": {
+      "tier": "community",
+      "score": 0.45,
+      "reasons": [
+        "Medium (self-published)"
+      ]
+    },
+    "found_by": "HTTP Requests and Responses",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S14",
+    "kind": "web",
+    "title": "Understanding HTTP and Web Communication - GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/blogs/http-full-form",
+    "domain": "geeksforgeeks.org",
+    "publisher": "",
+    "authors": [],
+    "year": null,
+    "snippet": "An HTTP request can include:\n\n HTTP Version: The version of HTTP being used, such as HTTP/1.1 or HTTP/2.\n URL: The address of the requested resource.\n HTTP Method: The requested action, such as GET for retrieving data or POST for sending data.\n Request Headers: Additional information about the request, such as browser details or accepted content types.\n Request Body: Optional data sent to the server, commonly when submitting forms.\n\nHTTP Responses Return Data to Clients\n\nAn HTTP response is the server's reply to an HTTP request.\n\nIt can include:\n\n HTTP Status Code: Indicates whether the reques",
+    "reliability": {
+      "tier": "community",
+      "score": 0.45,
+      "reasons": [
+        "GeeksforGeeks (tutorial site; known accuracy issues)"
+      ]
+    },
+    "found_by": "HTTP Requests and Responses",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S15",
+    "kind": "encyclopedia",
+    "title": "HTTP (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/HTTP",
+    "domain": "wikipedia.org",
+    "publisher": "Wikipedia",
+    "authors": [],
+    "year": null,
+    "snippet": "HTTP (Hypertext Transfer Protocol) is an application layer protocol in the Internet protocol suite for distributed, collaborative, hypermedia information systems. HTTP is the foundation of data communication for the World Wide Web, where hypertext documents include hyperlinks to other resources that the user can easily access, for example by a mouse click or by tapping the screen in a web browser.",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "Hypertext Transfer Protocol",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S16",
+    "kind": "encyclopedia",
+    "title": "List of HTTP status codes (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/List_of_HTTP_status_codes",
+    "domain": "wikipedia.org",
+    "publisher": "Wikipedia",
+    "authors": [],
+    "year": null,
+    "snippet": "This article lists standard and notable non-standard HTTP response status codes. Standardized codes are defined by IETF as documented in Request for Comments (RFC) publications and maintained by the IANA. Other, non-standard values are used by various servers. The descriptive text after the numeric code – the reason phrase – is shown here with typical value, but in practice, can be different or om",
+    "reliability": {
+      "tier": "reference",
+      "score": 0.7,
+      "reasons": [
+        "Wikipedia (useful overview; verify against primary sources)"
+      ]
+    },
+    "found_by": "List of HTTP status codes",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S17",
+    "kind": "book",
+    "title": "HTTP: The Definitive Guide",
+    "url": "https://openlibrary.org/works/OL16026044W",
+    "domain": "openlibrary.org",
+    "publisher": "O'Reilly Media, Incorporated",
+    "authors": [
+      "David Gourley",
+      "Brian Totty",
+      "Linda Mui"
+    ],
+    "year": 1997,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by O'Reilly Media, Incorporated",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "HTTP: The Definitive Guide Gourley",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": "9781565925090",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S18",
+    "kind": "book",
+    "title": "RESTful Web APIs: Services for a Changing World",
+    "url": "https://openlibrary.org/works/OL19548004W",
+    "domain": "openlibrary.org",
+    "publisher": "O'Reilly Media",
+    "authors": [
+      "Leonard Richardson",
+      "Michael Amundsen",
+      "Sam Ruby"
+    ],
+    "year": 2013,
+    "snippet": "",
+    "reliability": {
+      "tier": "publisher",
+      "score": 0.8,
+      "reasons": [
+        "Published by O'Reilly Media",
+        "Bibliographic record, not full text"
+      ]
+    },
+    "found_by": "RESTful Web APIs Richardson Amundsen Ruby",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": "9781306811590",
+    "duration_seconds": null,
+    "channel": null,
+    "view_count": null,
+    "has_transcript": false,
+    "best_segment": null
+  },
+  {
+    "id": "S19",
+    "kind": "video",
+    "title": "Http Methods",
+    "url": "https://www.youtube.com/watch?v=guYMSP7JVTA",
+    "domain": "youtube.com",
+    "publisher": "Telusko",
+    "authors": [],
+    "year": 2018,
+    "snippet": "Create - Post Read - Get Update - Put Delete - Delete Check out our courses: Agentic AI Engineering with Python ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (328,110 views)"
+      ]
+    },
+    "found_by": "HTTP GET vs POST explained for beginners",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 325,
+    "channel": "Telusko",
+    "view_count": 328110,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 9,
+      "end_seconds": 312,
+      "excerpt": "about HTTP methods now if you are loving networking for the first time or if you are working on REST API you might be knowing this concept we have different HTTP methods now STP basically stands for hypertext Transfer Protocol and it has no properties right the web is working on this protocol now and then we talk about HTTP we have this methods right and normally in rest terms we call them as verbs because their actions example we have famous for methods here we have get post put and delete so these are famous again we have some more methods as well but these are commonly used all these method"
+    }
+  },
+  {
+    "id": "S20",
+    "kind": "video",
+    "title": "HTTP crash course | http Methods | http headers",
+    "url": "https://www.youtube.com/watch?v=qgZiUvV41TI",
+    "domain": "youtube.com",
+    "publisher": "Chai aur Code",
+    "authors": [],
+    "year": 2023,
+    "snippet": "Visit https://chaicode.com for all related materials, community help, source code etc. Welcome to chai aur code, ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (300,575 views)"
+      ]
+    },
+    "found_by": "HTTP GET vs POST explained for beginners",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 1459,
+    "channel": "Chai aur Code",
+    "view_count": 300575,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 102,
+      "end_seconds": 404,
+      "excerpt": "this is our crash course on HTTP, and we'll discuss it a little bit. We'll see how things work. It's simple, though. There's nothing all that complicated. So, we'll talk about HTTP. Now, the first question that might come to your mind is, why HTTP? We should talk about HTTP s, because that's the only protocol available these days. Look, there's a difference between HTTP and HTTP s. It's just the technology used for communication, and there's not much difference in the rules. The only difference is that the data in HTTP is mostly in clear text. If you send ABC, only ABC reaches there. And our H"
+    }
+  },
+  {
+    "id": "S21",
+    "kind": "video",
+    "title": "#8 Django tutorials | GET vs POST | HTTP Methods",
+    "url": "https://www.youtube.com/watch?v=QD4GlXtf-WU",
+    "domain": "youtube.com",
+    "publisher": "Telusko",
+    "authors": [],
+    "year": 2019,
+    "snippet": "HTTP defines a set of request methods to indicate the desired action to be performed for a given resource. Although they can also ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (226,046 views)"
+      ]
+    },
+    "found_by": "HTTP GET vs POST explained for beginners",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 367,
+    "channel": "Telusko",
+    "view_count": 226046,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 4,
+      "end_seconds": 308,
+      "excerpt": "welcome back everyone my name is Evans Betty and let's continue with the series on Django now till this point we have added two numbers right and Tac Toe with a form and when you click on submit the request goes to the server that's where the processing will happen and you will get the answer and it works right but the thing is when you talk about this HTTP protocol it has multiple methods to work with so whenever you send a request or you get a response you are basically using HTTP protocol now when you send a request here by default you have a method which is get so basically HTTP has multip"
+    }
+  },
+  {
+    "id": "S22",
+    "kind": "video",
+    "title": "HTTP Status Codes Explained In 5 Minutes",
+    "url": "https://www.youtube.com/watch?v=qmpUfWN7hh4",
+    "domain": "youtube.com",
+    "publisher": "ByteByteGo",
+    "authors": [],
+    "year": 2023,
+    "snippet": "Get a Free System Design PDF with 158 pages by subscribing to our weekly newsletter: https://bytebytego.ck.page/subscribe ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.65,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked",
+        "Widely viewed (162,550 views)"
+      ]
+    },
+    "found_by": "HTTP status codes explained 2xx 4xx 5xx",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 307,
+    "channel": "ByteByteGo",
+    "view_count": 162550,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 8,
+      "end_seconds": 306,
+      "excerpt": "Hey there! Today, we're diving into HTTP status codes. These concise responses from servers are super useful when debugging our web apps, mobile apps, or APIs. Stick around to the end for some pro-tips on how to handle these in real life. Let’s start with the good ones – the 200s. These are basically the server giving you a high five. 200 OK means everything went well on the server side. 201 Created is another thumbs up, for when something new was created. Say you built an API that adds user profiles. 201 Created means “Got your data, new profile is live!” But 204 No Content is a little differ"
+    }
+  },
+  {
+    "id": "S23",
+    "kind": "video",
+    "title": "HTTP Status Codes Explained for REST APIs (200, 400, 404, 500)",
+    "url": "https://www.youtube.com/watch?v=x2d59rJ7vgo",
+    "domain": "youtube.com",
+    "publisher": "Topictrick",
+    "authors": [],
+    "year": 2026,
+    "snippet": "HTTP status codes explained for beginners! Learn how HTTP response codes work in REST APIs, including 1xx, 2xx, 3xx, 4xx ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.58,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked"
+      ]
+    },
+    "found_by": "HTTP status codes explained 2xx 4xx 5xx",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 836,
+    "channel": "Topictrick",
+    "view_count": 410,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 0,
+      "end_seconds": 301,
+      "excerpt": "Hello everyone and welcome to this lecture on HTTP status codes. In the previous lecture we learned how HTTP methods such as get, post, put, patch and delete allow client to tell a server what action it want to perform. However, after the server receive and process a request, the client still need to know whether the request was successful or not. This is where HTTP status code become important because these are the standard numeric response that a server send back to a client. They help answer questions such as did the request succeed? Was the requested resource found? Was the user authorized"
+    }
+  },
+  {
+    "id": "S24",
+    "kind": "video",
+    "title": "HTTP Status Codes Explained (2xx, 3xx, 4xx, 5xx) | Intro",
+    "url": "https://www.youtube.com/watch?v=JkgWhRdxg6k",
+    "domain": "youtube.com",
+    "publisher": "&BEYOND",
+    "authors": [],
+    "year": 2026,
+    "snippet": "In this video, we are going to understand what HTTP Status Codes (HTTP Error Codes) are and why they occur. HTTP status ...",
+    "reliability": {
+      "tier": "community",
+      "score": 0.58,
+      "reasons": [
+        "Video: check the presenter before relying on it",
+        "Transcript available, so its content could be checked"
+      ]
+    },
+    "found_by": "HTTP status codes explained 2xx 4xx 5xx",
+    "retrieved_at": "2026-11-07T17:14:42.001192Z",
+    "isbn": null,
+    "duration_seconds": 279,
+    "channel": "&BEYOND",
+    "view_count": 143,
+    "has_transcript": true,
+    "best_segment": {
+      "start_seconds": 0,
+      "end_seconds": 280,
+      "excerpt": "Hi everyone, welcome back to my channel. So this is our new playlist in this uh and beyond channel. So in this uh playlist, this is my first video. So in this intro video, we are going to talk about HTTP status codes. So this playlist is going to be about HTTP status codes, also called HTTP error codes. First I'll explain you everything and then we'll go uh through this notion page and I'll explain you what all we'll be covering in this playlist. So basically what do you understand by HTTP error codes. So if you see this so in this playlist we'll try to understand what HTTP status codes are wh"
+    }
+  }
+]

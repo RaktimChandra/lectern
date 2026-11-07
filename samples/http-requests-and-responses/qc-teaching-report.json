@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-07T18:13:16.738969Z",
+  "reviewer": "gemini:gemini-flash-lite-latest",
+  "coverage": [
+    {
+      "atom_id": "O1",
+      "statement": "Explain the purpose, characteristics, and typical use cases of the HTTP GET method, including how parameters are passed.",
+      "taught_in": [
+        "sec-2",
+        "sec-4"
+      ],
+      "assessed_in": [
+        "kc-1"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O2",
+      "statement": "Explain the purpose, characteristics, and typical use cases of the HTTP POST method, including how payload data is transmitted.",
+      "taught_in": [
+        "sec-2",
+        "sec-4"
+      ],
+      "assessed_in": [
+        "kc-2",
+        "kc-3"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O3",
+      "statement": "Distinguish between GET and POST methods based on data visibility, caching, idempotency, and intended side effects.",
+      "taught_in": [
+        "sec-2",
+        "sec-5"
+      ],
+      "assessed_in": [
+        "kc-1",
+        "kc-2",
+        "kc-3"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O4",
+      "statement": "Explain the general meaning of HTTP status code series: 2xx (Success), 4xx (Client Error), and 5xx (Server Error).",
+      "taught_in": [
+        "sec-3",
+        "sec-4"
+      ],
+      "assessed_in": [
+        "kc-4",
+        "kc-5"
+      ],
+      "status": "covered"
+    },
+    {
+      "atom_id": "O5",
+      "statement": "Distinguish whether a given scenario or status code reflects a successful operation (2xx), a client-side issue (4xx), or an internal server failure (5xx).",
+      "taught_in": [
+        "sec-3",
+        "sec-4",
+        "sec-5"
+      ],
+      "assessed_in": [
+        "kc-4",
+        "kc-5"
+      ],
+      "status": "covered"
+    }
+  ],
+  "timing": [
+    {
+      "section_id": "sec-1",
+      "allotted_minutes": 4,
+      "estimated_minutes": 0.9,
+      "words": 154,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-2",
+      "allotted_minutes": 9,
+      "estimated_minutes": 2.2,
+      "words": 403,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-3",
+      "allotted_minutes": 8,
+      "estimated_minutes": 1.7,
+      "words": 307,
+      "status": "too_short"
+    },
+    {
+      "section_id": "sec-4",
+      "allotted_minutes": 7,
+      "estimated_minutes": 5.6,
+      "words": 239,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-5",
+      "allotted_minutes": 8,
+      "estimated_minutes": 1.6,
+      "words": 290,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-6",
+      "allotted_minutes": 5,
+      "estimated_minutes": 0.1,
+      "words": 26,
+      "status": "ok"
+    },
+    {
+      "section_id": "sec-7",
+      "allotted_minutes": 4,
+      "estimated_minutes": 0.7,
+      "words": 132,
+      "status": "too_short"
+    }
+  ],
+  "total_minutes": 45,
+  "estimated_total_minutes": 12.8,
+  "readability": {
+    "flesch_reading_ease": 63.2,
+    "avg_sentence_words": 17.8,
+    "long_sentences": 7,
+    "words": 1654
+  },
+  "rubric": [
+    {
+      "criterion": "objective_alignment",
+      "score": 5,
+      "rationale": "All objectives (O1-O5) are fully covered in the text and directly assessed through the knowledge checks and scenario exercises."
+    },
+    {
+      "criterion": "clarity",
+      "score": 5,
+      "rationale": "Key terms like idempotent, payload, and status code families are clearly defined on first use with plain English explanations."
+    },
+    {
+      "criterion": "structure_and_flow",
+      "score": 5,
+      "rationale": "The lesson moves logically from a motivating hook about password leaks into GET/POST mechanics, status codes, tracing examples, and practice."
+    },
+    {
+      "criterion": "examples_and_practice",
+      "score": 5,
+      "rationale": "Concrete HTTP message traces and real-world scenarios provide excellent application opportunities with clear self-check solutions."
+    },
+    {
+      "criterion": "engagement",
+      "score": 5,
+      "rationale": "The self-paced design includes frequent prompts to write down answers and check solutions, keeping the learner actively engaged."
+    },
+    {
+      "criterion": "accuracy_of_level",
+      "score": 5,
+      "rationale": "The technical depth and terminology are perfectly calibrated for first- or second-year engineering students."
+    }
+  ],
+  "strengths": [
+    "Engaging hook that immediately connects HTTP security and status codes to a realistic developer bug.",
+    "Clear distinction between data hiding (POST body) and data encryption (TLS/HTTPS).",
+    "Well-structured HTTP request and response trace examples that demystify raw protocol syntax.",
+    "Comprehensive self-check scenarios that require learners to classify both methods and error categories."
+  ],
+  "issues": [
+    {
+      "id": "I1",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-1",
+      "title": "“A Leaked Password and a Mystery Error” is thin for 4 minutes",
+      "detail": "About 0.9 minutes of reading against 4 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 432 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 432 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I2",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-2",
+      "title": "“HTTP Methods: GET and POST” is thin for 9 minutes",
+      "detail": "About 2.2 minutes of reading against 9 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 972 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 972 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I3",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-3",
+      "title": "“HTTP Status Categories: 2xx, 4xx, and 5xx” is thin for 8 minutes",
+      "detail": "About 1.7 minutes of reading against 8 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 864 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 864 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I4",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "pacing",
+      "section_id": "sec-7",
+      "title": "“Summary and Next Steps” is thin for 4 minutes",
+      "detail": "About 0.7 minutes of reading against 4 allotted.",
+      "suggestion": "Add a worked example or a short exercise, up to about 432 words, or give the time to another section.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Expand this section to about 432 words with a concrete example, using only the evidence provided."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    },
+    {
+      "id": "I5",
+      "layer": "instruction",
+      "severity": "low",
+      "category": "clarity",
+      "section_id": "sec-2",
+      "title": "“HTTP Methods: GET and POST” is dense",
+      "detail": "Reading ease 60.1 (plain English), 3 sentences over 30 words.",
+      "suggestion": "Split long sentences and define terms as they appear.",
+      "fix": {
+        "type": "rewrite",
+        "find": null,
+        "replace": null,
+        "instruction": "Split sentences longer than 25 words and define each technical term on first use. Keep all citations."
+      },
+      "atom_id": null,
+      "status": "open",
+      "resolved_in_version": null,
+      "dismiss_reason": null
+    }
+  ],
+  "quality_score": 94.3,
+  "summary": "5 of 5 objective parts are taught and tested. Timing fits in 3 of 7 sections. Rubric average 5.0 of 5. 5 suggestions."
+}

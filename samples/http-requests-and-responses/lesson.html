@@ -1,0 +1,262 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>HTTP Requests and Responses</title><style>
+:root { --ink:#1C2533; --muted:#5B6878; --rule:#D5DCE3; --marker:#F2D24B; }
+* { box-sizing: border-box; }
+body { margin:0; background:#EEF1F4; color:var(--ink); font:18px/1.65 Georgia, 'Source Serif 4', serif; }
+main { max-width: 760px; margin: 40px auto; background:#fff; padding: 56px 64px; box-shadow: 0 1px 2px rgba(28,37,51,.12); }
+h1 { font-size: 34px; line-height: 1.2; margin: 0 0 16px; }
+h2 { font-size: 24px; margin: 48px 0 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.meta, .min { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); }
+.objective { border-left: 4px solid var(--marker); padding: 4px 0 4px 16px; margin: 24px 0; }
+table { border-collapse: collapse; width: 100%; font: 15px/1.4 system-ui, sans-serif; }
+td, th { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; }
+pre { background: #F4F6F8; padding: 14px 16px; overflow-x: auto; font: 14px/1.5 ui-monospace, Consolas, monospace; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .88em; }
+sup a { text-decoration: none; font: 12px system-ui, sans-serif; color: #2B59C3; }
+.q { margin: 20px 0; } .q ol { list-style: upper-alpha; }
+details { font: 15px/1.5 system-ui, sans-serif; color: var(--muted); }
+.notes { font: 15px/1.5 system-ui, sans-serif; background: #F7F8FA; padding: 10px 14px; border-left: 3px solid var(--rule); }
+.refs li { font-size: 15px; margin-bottom: 6px; word-break: break-word; }
+@media print { body { background: #fff; } main { box-shadow: none; margin: 0; padding: 0; } details { display: block; }
+  details > summary { display: none; } h2 { break-after: avoid; } pre, .q { break-inside: avoid; } }
+</style></head><body><main>
+<h1>HTTP Requests and Responses</h1>
+<p class='meta'>45 minutes. Beginner. Self-paced. Version 3, 7 November 2026.</p>
+<p>You will learn how to choose between HTTP GET and POST methods based on safety, idempotency, and data placement. You will also learn to interpret 2xx, 4xx, and 5xx response codes to quickly diagnose client mistakes and server failures.</p>
+<div class='objective'><strong>Learning objective.</strong> Explain GET and POST methods and distinguish between 2xx, 4xx, and 5xx response status categories.
+<ul><li>Explain the purpose, characteristics, and typical use cases of the HTTP GET method, including how parameters are passed.</li><li>Explain the purpose, characteristics, and typical use cases of the HTTP POST method, including how payload data is transmitted.</li><li>Distinguish between GET and POST methods based on data visibility, caching, idempotency, and intended side effects.</li><li>Explain the general meaning of HTTP status code series: 2xx (Success), 4xx (Client Error), and 5xx (Server Error).</li><li>Distinguish whether a given scenario or status code reflects a successful operation (2xx), a client-side issue (4xx), or an internal server failure (5xx).</li></ul>
+</div>
+<table><thead><tr><th>Part</th><th>Section</th><th>Minutes</th></tr></thead><tbody>
+<tr><td>1</td><td>A Leaked Password and a Mystery Error</td><td>4</td></tr>
+<tr><td>2</td><td>HTTP Methods: GET and POST</td><td>9</td></tr>
+<tr><td>3</td><td>HTTP Status Categories: 2xx, 4xx, and 5xx</td><td>8</td></tr>
+<tr><td>4</td><td>Tracing Real HTTP Requests and Responses</td><td>7</td></tr>
+<tr><td>5</td><td>Hands-On Scenario Classification</td><td>8</td></tr>
+<tr><td>6</td><td>Knowledge Check</td><td>5</td></tr>
+<tr><td>7</td><td>Summary and Next Steps</td><td>4</td></tr>
+<tr><td></td><th>Total</th><th>45</th></tr></tbody></table>
+<h2 id='sec-1'>1. A Leaked Password and a Mystery Error <span class='min'>4 min</span></h2>
+<p>Imagine you build a login form for a web application. A user enters their username and secret password, clicks &quot;Log In&quot;, and notices their password written directly inside the address bar: <code>https://example.com/login?username=admin&amp;password=secret123</code> <sup><a href="#ref-S11">[S11]</a></sup>. That password is now preserved in the browser history, captured inside proxy logs, and saved in server access logs <sup><a href="#ref-S11">[S11]</a></sup>. Even worse, when the server rejects the request, it returns a cryptic status code like 500, leaving the user wondering if the entire server crashed or if their network cable unplugged <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S23">[S23]</a></sup>.</p>
+<p>This exact bug happens when developers confuse basic Hypertext Transfer Protocol (HTTP) request methods and misunderstand HTTP status codes <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. HTTP methods tell the web server what kind of action the client wants to perform, while status codes provide a standardized numeric reply showing what happened <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S23">[S23]</a></sup>. By understanding how methods like GET and POST handle data, and how status code series categorize results, you can design safe APIs and troubleshoot web errors efficiently <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S23">[S23]</a></sup><sup><a href="#ref-S24">[S24]</a></sup>.</p>
+
+<h2 id='sec-2'>2. HTTP Methods: GET and POST <span class='min'>9 min</span></h2>
+<h3>The GET Method</h3>
+<p>The HTTP GET method requests data from a specified resource <sup><a href="#ref-S10">[S10]</a></sup>. You use GET for safe, read-only operations that do not modify data on the server <sup><a href="#ref-S11">[S11]</a></sup>. An HTTP method is safe if it does not change server state <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. A method is idempotent if making multiple identical requests has the same effect on the server as making a single request <sup><a href="#ref-S2">[S2]</a></sup>. GET is both safe and idempotent <sup><a href="#ref-S2">[S2]</a></sup>.</p>
+<p>GET can still send data to the server. It does this by attaching query parameters directly to the request URL <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. A query parameter is a key-value pair appended after a question mark in the URL string, such as <code>/map?city=boston</code> <sup><a href="#ref-S8">[S8]</a></sup>. URLs have length limits that restrict GET requests to roughly 2,000 to 8,000 characters depending on the browser, and they can only transmit URL-safe text <sup><a href="#ref-S11">[S11]</a></sup>. Because GET requests are safe and read-only, browsers and intermediate proxies can cache them to speed up subsequent visits <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<h3>The POST Method</h3>
+<p>The HTTP POST method submits data to be processed by a specified resource, such as creating a new database record or submitting an order form <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. Unlike GET, POST sends its data inside the request body rather than the URL <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. A request body, or payload, is the data package sent directly after the HTTP headers <sup><a href="#ref-S14">[S14]</a></sup>. POST can transmit any data format defined by the <code>Content-Type</code> header, including JSON, XML, or binary files, and it does not have the strict character length limits of URL query strings <sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<p>POST is not safe because it alters server state <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. POST is also non-idempotent: sending the same POST request multiple times will execute the operation multiple times, such as charging a payment card twice or creating duplicate database entries <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. For this reason, POST requests are not cached by default <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<h3>Comparing Data Visibility and Security</h3>
+<p>Because GET puts parameters into the URL, sensitive parameters such as passwords or access tokens are visible on screen, saved in browser history, and recorded in server logs <sup><a href="#ref-S11">[S11]</a></sup>. You should never pass sensitive credentials via GET query parameters <sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<p>However, you must avoid a common security misconception: using POST does not automatically make your data secure <sup><a href="#ref-S11">[S11]</a></sup>. Moving data from the URL to the request body only hides it from the browser address bar and history <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. Plain HTTP sends both query strings and request bodies across the network unencrypted <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. To secure credentials against eavesdropping on the network, you must encrypt the connection using Transport Layer Security (HTTPS/TLS) alongside POST <sup><a href="#ref-S11">[S11]</a></sup>.</p>
+
+<h2 id='sec-3'>3. HTTP Status Categories: 2xx, 4xx, and 5xx <span class='min'>8 min</span></h2>
+<h3>Structure of HTTP Status Codes</h3>
+<p>An HTTP response begins with a three-digit status code issued by the server to tell the client the result of its request <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>. Status codes are organized into five families based on their first digit <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. A client interprets the broad category from the leading digit even if it does not recognize the exact code <sup><a href="#ref-S15">[S15]</a></sup>.</p>
+<h3>2xx: Success</h3>
+<p>The 2xx class indicates that the client request was successfully received, understood, and accepted by the server <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>. When a read operation succeeds, the server usually replies with <code>200 OK</code> and supplies the requested entity in the response body <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>. When a request creates a new item on the server, such as a newly inserted user account, the server returns <code>201 Created</code> <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</p>
+<h3>4xx: Client Error</h3>
+<p>The 4xx class indicates that the request cannot be fulfilled due to a problem on the client side <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. These errors are not server crashes; rather, the client provided bad, unauthorized, or malformed instructions that the server refused or could not find <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. For instance, <code>404 Not Found</code> means the requested URL resource does not exist on the server <sup><a href="#ref-S14">[S14]</a></sup>. Another common example is <code>400 Bad Request</code>, indicating that the client's request contained invalid syntax or missing required parameters <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S23">[S23]</a></sup>.</p>
+<h3>5xx: Server Error</h3>
+<p>The 5xx class indicates that the server encountered an internal failure while trying to process a request <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>. The request syntax and headers from the client might be valid, but an issue occurred inside the server itself <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup><sup><a href="#ref-S23">[S23]</a></sup>.</p>
+<p>A common misunderstanding is that a <code>500 Internal Server Error</code> means the client's network connection or physical wiring is broken <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>. That is incorrect. In order to receive a 500 response code, your network connection must be functioning well enough to reach the server and receive the reply <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. The code <code>500 Internal Server Error</code> is a catch-all server response showing that the web server ran into an unexpected condition or unhandled software exception that prevented it from completing the job <sup><a href="#ref-S4">[S4]</a></sup>.</p>
+
+<h2 id='sec-4'>4. Tracing Real HTTP Requests and Responses <span class='min'>7 min</span></h2>
+<p>Let us trace real HTTP network transactions line by line to see methods and response codes in action <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</p>
+<h3>Exchange 1: Fetching a Resource with GET</h3>
+<p>A client wants to retrieve account details for user ID 42 <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<pre><code class="language-http">GET /users/42 HTTP/1.1
+Host: api.example.com
+Accept: application/json
+</code></pre>
+<p>The first line contains the HTTP method (<code>GET</code>), the path (<code>/users/42</code>), and the protocol version (<code>HTTP/1.1</code>) <sup><a href="#ref-S14">[S14]</a></sup>. Headers follow on separate lines <sup><a href="#ref-S14">[S14]</a></sup>. Notice that there is no request body, because GET requests do not include an entity body <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</p>
+<p>The server finds the record and replies:</p>
+<pre><code class="language-http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 48
+
+{
+  &quot;id&quot;: 42,
+  &quot;name&quot;: &quot;Alice&quot;,
+  &quot;role&quot;: &quot;Engineer&quot;
+}
+</code></pre>
+<p>The status line gives the protocol version and the <code>200 OK</code> status, confirming a successful fetch <sup><a href="#ref-S13">[S13]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>. The response body delivers the requested JSON data <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</p>
+<h3>Exchange 2: Creating a Resource with POST</h3>
+<p>The client creates a new user record by sending data <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>.</p>
+<pre><code class="language-http">POST /users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+Content-Length: 32
+
+{
+  &quot;name&quot;: &quot;Bob&quot;,
+  &quot;role&quot;: &quot;DevOps&quot;
+}
+</code></pre>
+<p>Here, the method is <code>POST</code> <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. The data appears in the request body after a blank line separating headers from payload <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. The <code>Content-Type</code> header informs the server that the body contains JSON <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</p>
+<p>The server creates the account and sends back:</p>
+<pre><code class="language-http">HTTP/1.1 201 Created
+Location: /users/43
+Content-Length: 0
+</code></pre>
+<p>The <code>201 Created</code> status code confirms that the server successfully stored the new resource <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</p>
+<h3>Exchange 3: Client Error on Malformed POST</h3>
+<p>Now consider what happens if the client sends a malformed POST request missing required data <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>:</p>
+<pre><code class="language-http">POST /users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+Content-Length: 12
+
+{&quot;name&quot;: &quot;&quot;}
+</code></pre>
+<p>The server evaluates the payload, determines that user names cannot be empty strings, and rejects the submission <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>:</p>
+<pre><code class="language-http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+  &quot;error&quot;: &quot;Name field cannot be blank.&quot;
+}
+</code></pre>
+<p>The status code is in the 4xx range (<code>400 Bad Request</code>) because the failure was caused by the client sending invalid data, not by a crash in the server software <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</p>
+
+<h2 id='sec-5'>5. Hands-On Scenario Classification <span class='min'>8 min</span></h2>
+<h3>Instructions</h3>
+<p>For each scenario below, decide:</p>
+<ol>
+<li>The appropriate HTTP method (<code>GET</code> or <code>POST</code>) <sup><a href="#ref-S11">[S11]</a></sup>.</li>
+<li>The expected response category (<code>2xx</code>, <code>4xx</code>, or <code>5xx</code>) <sup><a href="#ref-S12">[S12]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</li>
+</ol>
+<p>Write your answers down on paper or in a text file before checking the answers below <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S12">[S12]</a></sup>.</p>
+<hr />
+<h4>Scenarios</h4>
+<ol>
+<li><strong>Filtering an Article Archive:</strong> A user searches for articles containing the query <code>tag=networking</code> and expects a list of matching blog posts <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. The operation reads data without modifying server state <sup><a href="#ref-S11">[S11]</a></sup>.</li>
+<li><strong>Publishing a Comment:</strong> A reader fills in a form to publish a new comment on a forum post <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. The server receives the text and adds it to the database <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</li>
+<li><strong>Requesting a Missing Webpage:</strong> A browser requests <code>/portfolio/2020.html</code> via GET, but that path does not exist on the server <sup><a href="#ref-S14">[S14]</a></sup>.</li>
+<li><strong>Database Crash During Submission:</strong> A user submits an account registration form using POST <sup><a href="#ref-S11">[S11]</a></sup>. While processing the request, the server's backend database crashes with an unhandled exception <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</li>
+</ol>
+<hr />
+<h3>Self-Check Solutions</h3>
+<ol>
+<li><strong>Method:</strong> <code>GET</code>. <strong>Category:</strong> <code>2xx</code> (specifically <code>200 OK</code>) <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.
+<ul>
+<li><em>Explanation:</em> The action is a read-only search with no side effects on the server, so it should use GET with query parameters, yielding a successful 2xx response <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</li>
+</ul>
+</li>
+<li><strong>Method:</strong> <code>POST</code>. <strong>Category:</strong> <code>2xx</code> (specifically <code>201 Created</code>) <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.
+<ul>
+<li><em>Explanation:</em> Publishing a comment creates new data on the server, requiring a non-idempotent POST request <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>. A successful creation returns a 2xx status code <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S16">[S16]</a></sup>.</li>
+</ul>
+</li>
+<li><strong>Method:</strong> <code>GET</code>. <strong>Category:</strong> <code>4xx</code> (specifically <code>404 Not Found</code>) <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.
+<ul>
+<li><em>Explanation:</em> The client requested a URL that does not exist <sup><a href="#ref-S14">[S14]</a></sup>. Because the mistake comes from the client asking for an invalid resource, the server responds with a 4xx client error <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup>.</li>
+</ul>
+</li>
+<li><strong>Method:</strong> <code>POST</code>. <strong>Category:</strong> <code>5xx</code> (specifically <code>500 Internal Server Error</code>) <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S11">[S11]</a></sup>.
+<ul>
+<li><em>Explanation:</em> Form submissions use POST <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S13">[S13]</a></sup>. Because an unexpected backend crash prevented the server from completing the request, the server issues a 5xx status code <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>. The network connection itself is working <sup><a href="#ref-S10">[S10]</a></sup><sup><a href="#ref-S14">[S14]</a></sup>.</li>
+</ul>
+</li>
+</ol>
+
+<h2 id='sec-6'>6. Knowledge Check <span class='min'>5 min</span></h2>
+<p>Complete the following multiple-choice questions to test your understanding of HTTP methods, data transmission, and status code categories. Review your answers against the provided explanations.</p>
+
+<div class='q'><p><strong>Question 1.</strong> Which statement correctly describes how an HTTP GET request passes parameters and handles server state?</p><ol><li>GET cannot send parameters to the server because it lacks a body.</li><li>GET sends parameters in the request body and modifies server records.</li><li>GET sends parameters as query strings in the request URL and is a safe, idempotent method.</li><li>GET sends parameters in the URL and causes permanent side effects on the database.</li></ol><details><summary>Show answer</summary><p><strong>C.</strong> GET sends data by appending query parameters to the URL string. It is defined as a safe and idempotent method because it retrieves data without altering server state. The misconception that GET cannot transmit data overlooks URL query strings.</p></details></div>
+<div class='q'><p><strong>Question 2.</strong> Why is an HTTP POST request considered non-idempotent?</p><ol><li>Sending identical POST requests repeatedly may execute actions or create resources multiple times.</li><li>POST requests place form data in the URL query string where it cannot be cached.</li><li>POST requests only read data from the server without modifying state.</li><li>POST requests are always encrypted by default, preventing repeat submissions.</li></ol><details><summary>Show answer</summary><p><strong>A.</strong> POST is non-idempotent because repeating the exact same request multiple times can trigger multiple side effects, such as generating duplicate orders or records. POST is neither safe nor idempotent.</p></details></div>
+<div class='q'><p><strong>Question 3.</strong> An engineer switches a login form from GET to POST over plain HTTP (without TLS). Why is this form still insecure against network eavesdropping?</p><ol><li>POST cannot transmit text strings, only binary data.</li><li>POST automatically saves the password into the browser history.</li><li>POST is only safe if placed in a query parameter.</li><li>POST transmits the request body in unencrypted plaintext unless HTTPS/TLS is used.</li></ol><details><summary>Show answer</summary><p><strong>D.</strong> Moving data to a POST request body prevents it from appearing in the URL or browser history, but over unencrypted HTTP, the body is still transmitted across the network in clear text. Security against network snooping requires encryption via HTTPS/TLS.</p></details></div>
+<div class='q'><p><strong>Question 4.</strong> A user tries to access a webpage and receives a 404 status code. What does this code indicate?</p><ol><li>The client issued a request for a resource that could not be found on the server.</li><li>The server successfully processed the request and created a new file.</li><li>The user&#x27;s Wi-Fi or physical network connection failed.</li><li>The server software crashed due to an unhandled exception.</li></ol><details><summary>Show answer</summary><p><strong>A.</strong> 4xx codes indicate client-side errors, such as requesting a URL path that does not exist (404 Not Found). It is not a server software crash (which would yield a 5xx code) nor a local network disconnect.</p></details></div>
+<div class='q'><p><strong>Question 5.</strong> A web client receives a `500 Internal Server Error` response from an API. What is the actual cause of this response?</p><ol><li>The network cable was unplugged, preventing any packet transmission.</li><li>The client submitted bad query syntax that the client itself must reformat.</li><li>The server received the request but experienced an unexpected internal condition or failure while processing it.</li><li>The client requested a safe GET resource that was cached successfully.</li></ol><details><summary>Show answer</summary><p><strong>C.</strong> A 500 status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request, such as an unhandled server-side crash. Since the client received this response, the network connection was working.</p></details></div>
+<h2 id='sec-7'>7. Summary and Next Steps <span class='min'>4 min</span></h2>
+<h3>Quick Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property / Concept</th>
+<th style="text-align:left">GET</th>
+<th style="text-align:left">POST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Primary Purpose</strong></td>
+<td style="text-align:left">Read / retrieve data <sup><a href="#ref-S11">[S11]</a></sup></td>
+<td style="text-align:left">Submit / create data <sup><a href="#ref-S11">[S11]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Data Location</strong></td>
+<td style="text-align:left">URL query parameters <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+<td style="text-align:left">Request body (payload) <sup><a href="#ref-S8">[S8]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Safe Method?</strong></td>
+<td style="text-align:left">Yes (no server state change) <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+<td style="text-align:left">No (modifies resources) <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Idempotent?</strong></td>
+<td style="text-align:left">Yes <sup><a href="#ref-S2">[S2]</a></sup></td>
+<td style="text-align:left">No <sup><a href="#ref-S2">[S2]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Default Caching</strong></td>
+<td style="text-align:left">Cacheable <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+<td style="text-align:left">Not cached <sup><a href="#ref-S2">[S2]</a></sup><sup><a href="#ref-S11">[S11]</a></sup></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Status Family</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Meaning</th>
+<th style="text-align:left">Common Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>2xx</strong></td>
+<td style="text-align:left">Success</td>
+<td style="text-align:left">Request was received, understood, and accepted <sup><a href="#ref-S15">[S15]</a></sup></td>
+<td style="text-align:left"><code>200 OK</code>, <code>201 Created</code> <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S16">[S16]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4xx</strong></td>
+<td style="text-align:left">Client Error</td>
+<td style="text-align:left">Problem caused by the client's request <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S15">[S15]</a></sup></td>
+<td style="text-align:left"><code>400 Bad Request</code>, <code>404 Not Found</code> <sup><a href="#ref-S14">[S14]</a></sup><sup><a href="#ref-S23">[S23]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>5xx</strong></td>
+<td style="text-align:left">Server Error</td>
+<td style="text-align:left">Server failed to fulfill an otherwise valid request <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S14">[S14]</a></sup></td>
+<td style="text-align:left"><code>500 Internal Server Error</code> <sup><a href="#ref-S4">[S4]</a></sup><sup><a href="#ref-S14">[S14]</a></sup></td>
+</tr>
+</tbody>
+</table>
+<h3>Next Steps</h3>
+<p>Now that you know how GET and POST work and how status codes categorize outcomes, you can inspect network traffic using browser developer tools or API clients like Postman <sup><a href="#ref-S11">[S11]</a></sup>. As you build APIs, practice selecting the correct method and returning precise status codes so clients can properly handle your server's responses <sup><a href="#ref-S11">[S11]</a></sup><sup><a href="#ref-S23">[S23]</a></sup>.</p>
+
+<h2>Watch next</h2><p class='meta'>Optional, outside the 45 minutes.</p><ul>
+<li><a href='https://www.youtube.com/watch?v=QD4GlXtf-WU'>#8 Django tutorials | GET vs POST | HTTP Methods</a> (Telusko, 6:07). Watch 0:04 to 5:08. It contrasts GET and POST methods and clearly shows how parameters move through URLs versus request payloads.</li>
+<li><a href='https://www.youtube.com/watch?v=x2d59rJ7vgo'>HTTP Status Codes Explained for REST APIs (200, 400, 404, 500)</a> (Topictrick, 13:56). Watch 0:00 to 5:01. It explains the core HTTP status code categories including 200, 400, 404, and 500 when working with APIs.</li>
+</ul>
+<h2>References</h2><ol class='refs' style='list-style:none;padding:0'>
+<li id='ref-S2'>[S2] developer.mozilla.org. HTTP request methods - HTTP | MDN. <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods'>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S4'>[S4] developer.mozilla.org. 500 Internal Server Error - HTTP | MDN. <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/500'>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/500</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S8'>[S8] cs.wellesley.edu. CS 304 GET versus POST. <a href='https://cs.wellesley.edu/~cs304node/readings/get-versus-post'>https://cs.wellesley.edu/~cs304node/readings/get-versus-post</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S10'>[S10] codefinity.com. HTTP Requests and Responses Explained. <a href='https://codefinity.com/blog/HTTP-Requests-and-Responses-Explained'>https://codefinity.com/blog/HTTP-Requests-and-Responses-Explained</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S11'>[S11] blog.postman.com. GET vs POST: Understanding HTTP Request Methods. <a href='https://blog.postman.com/get-vs-post'>https://blog.postman.com/get-vs-post</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S12'>[S12] foursight.cloud. HTTP Status Codes (2xx / 4xx / 5xx) — Definition | FourSight Glossary. <a href='https://foursight.cloud/glossary/http-status-codes'>https://foursight.cloud/glossary/http-status-codes</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S13'>[S13] medium.com. 📡 HTTP Request &amp; Response Explained. <a href='https://medium.com/@nikhilpatidar01/http-request-response-explained-cc7c30993967'>https://medium.com/@nikhilpatidar01/http-request-response-explained-cc7c30993967</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S14'>[S14] geeksforgeeks.org. Understanding HTTP and Web Communication - GeeksforGeeks. <a href='https://www.geeksforgeeks.org/blogs/http-full-form'>https://www.geeksforgeeks.org/blogs/http-full-form</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S15'>[S15] HTTP (Wikipedia). <a href='https://en.wikipedia.org/wiki/HTTP'>https://en.wikipedia.org/wiki/HTTP</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S16'>[S16] List of HTTP status codes (Wikipedia). <a href='https://en.wikipedia.org/wiki/List_of_HTTP_status_codes'>https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a> (retrieved 7 Nov 2026)</li>
+<li id='ref-S21'>[S21] Video: “#8 Django tutorials | GET vs POST | HTTP Methods” (Telusko, 2019, 6:07). Most relevant part: 0:04 to 5:08. <a href='https://www.youtube.com/watch?v=QD4GlXtf-WU'>https://www.youtube.com/watch?v=QD4GlXtf-WU</a></li>
+<li id='ref-S23'>[S23] Video: “HTTP Status Codes Explained for REST APIs (200, 400, 404, 500)” (Topictrick, 2026, 13:56). Most relevant part: 0:00 to 5:01. <a href='https://www.youtube.com/watch?v=x2d59rJ7vgo'>https://www.youtube.com/watch?v=x2d59rJ7vgo</a></li>
+<li id='ref-S24'>[S24] Video: “HTTP Status Codes Explained (2xx, 3xx, 4xx, 5xx) | Intro” (&amp;BEYOND, 2026, 4:39). Most relevant part: 0:00 to 4:40. <a href='https://www.youtube.com/watch?v=JkgWhRdxg6k'>https://www.youtube.com/watch?v=JkgWhRdxg6k</a></li>
+</ol></main></body></html>
