@@ -1,5 +1,7 @@
 # Lectern
 
+[![CI](https://github.com/RaktimChandra/lectern/actions/workflows/ci.yml/badge.svg)](https://github.com/RaktimChandra/lectern/actions/workflows/ci.yml)
+
 Lectern turns a lesson title and a learning objective into a 45-minute lesson in which every factual sentence cites a source that was actually read. It then reviews the lesson twice, once for factual accuracy and once for teaching quality. The instructor previews each suggested fix as a diff, applies or dismisses it, and exports the final lesson with its references and both review reports.
 
 Built for the Kalvium Program Design task: an AI-powered lesson creation tool with two independent quality-control layers.
@@ -87,7 +89,18 @@ Requires Python 3.11+ and Node 20+.
 | `YOUTUBE_API_KEY` | Video search (enable "YouTube Data API v3" in Google Cloud) | Needed for video recommendations |
 | `BRAVE_API_KEY`, `GOOGLE_BOOKS_API_KEY` | Fallback search, higher book quota | Optional |
 
-Wikipedia and Open Library need no key. Model names change over time: if a default model is not available on your account, set `LLM_MODEL` (and `QC_MODEL`).
+Wikipedia and Open Library need no key.
+
+Model names change often. If the configured model has been retired, Lectern lists the models your key can use, picks the closest general-purpose one and logs the switch; set `LLM_MODEL` / `QC_MODEL` to choose one yourself. For a genuinely independent review, give the reviewer a different provider, for example Gemini writes and Claude checks:
+
+```
+GEMINI_API_KEY=...
+ANTHROPIC_API_KEY=...
+LLM_PROVIDER=gemini
+QC_PROVIDER=anthropic
+```
+
+After starting Lectern, click **Check connections** on the home page. It sends one tiny real request to every configured service and shows which ones answer, how fast, and what to fix if one does not.
 
 ### macOS and Linux
 
@@ -100,25 +113,33 @@ make run                    # http://localhost:8000
 
 For development with hot reload, run `make dev-api` and `make dev-web` in two terminals and open http://localhost:5173.
 
-### Windows (PowerShell)
+### Windows
 
-```powershell
-copy .env.example .env      # add your keys
-python -m venv backend\.venv
-backend\.venv\Scripts\pip install -e ".\backend[dev]"
-cd frontend; npm install; npm run build; cd ..
-cd backend; .venv\Scripts\uvicorn lectern.main:app --port 8000
+Double-click or run from a terminal:
+
+```bat
+setup.bat      :: creates .env, the Python environment, installs everything, builds the interface
+notepad .env   :: add your keys
+run.bat        :: http://localhost:8000
+test.bat       :: offline tests
+```
+
+### Docker
+
+```bash
+cp .env.example .env && docker compose up --build   # http://localhost:8000
 ```
 
 ## Using it
 
-1. Enter a title and an objective (or click "Use the HTTP example"), choose the audience and delivery, and optionally paste trusted URLs.
-2. Watch the seven steps run. If one fails, read the message and click "Retry this step".
-3. Read the lesson. Hover a citation to see the verified passage behind it; click it to open the source.
-4. Work through the Facts and Teaching tabs. `[` and `]` move between open findings. Preview a fix, edit it if needed, apply or dismiss it.
-5. Edit any section or question directly. Changing a section's minutes rebalances the others so the lesson stays at 45.
-6. After changes, click Re-check so the reports describe the current version.
-7. Export the ZIP bundle.
+1. Click **Check connections** once; every required row should be green.
+2. Enter a title and an objective (or click "Use the HTTP example"), choose the audience and delivery, and optionally paste trusted URLs.
+3. Watch the seven steps run. If one fails, read the message and click "Retry this step".
+4. Read the lesson. Hover a citation to see the verified passage behind it; click it to open the source.
+5. Work through the Facts and Teaching tabs. `[` and `]` move between open findings. Preview a fix, edit it if needed, apply or dismiss it.
+6. Edit any section or question directly. Changing a section's minutes rebalances the others so the lesson stays at 45.
+7. After changes, click Re-check so the reports describe the current version.
+8. Export the ZIP bundle.
 
 ## Sample output
 
@@ -130,7 +151,13 @@ cd backend; .venv\Scripts\uvicorn lectern.main:app --port 8000
 make test
 ```
 
-The backend suite (66 tests) runs offline in about two seconds, using recorded provider responses and a scripted model. It covers time normalisation, citation parsing, quote verification, reliability tiers, provider parsers, retries and schema repair, the full pipeline, verdict downgrading, failure isolation and retry, fixes and versioning, every API route, and exports including HTML escaping. The frontend has type checking and unit tests for the lesson clock and citation rendering.
+The backend suite (76 tests) runs offline in about three seconds, using recorded provider responses and a scripted model. It covers time normalisation, citation parsing, quote verification, reliability tiers, provider parsers, retries (including waiting as long as a provider's `Retry-After` asks), schema repair, model discovery when a model is retired, request adaptation for newer models, the connection check, the hosting guard (passphrase, rate limits, body limit, security headers), the full pipeline, verdict downgrading, failure isolation and retry, fixes and versioning, every API route, and exports including HTML escaping. The frontend has type checking and unit tests for the lesson clock and citation rendering.
+
+GitHub Actions runs the same suites on every push (Python 3.11 to 3.13), builds the interface, builds the Docker image and smoke-tests the passphrase guard.
+
+## Hosting
+
+Lectern is local-first; the task does not need hosting. To share it, `docker compose up --build` or the included Render blueprint will do, and setting `ACCESS_TOKEN` locks it behind a passphrase with per-client spend limits and strict security headers. Details are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Design decisions
 

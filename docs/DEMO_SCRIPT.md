@@ -1,4 +1,4 @@
-# Demo video script (about 8 minutes)
+# Demo video script (about 9 minutes)
 
 Before recording: run the second lesson in advance; open the HTTP lesson form empty; browser zoom 110 percent; notifications off; a clean browser window. Say the lines in your own words; the wording below is a guide.
 
@@ -13,6 +13,10 @@ Before recording: run the second lesson in advance; open the HTTP lesson form em
 *Screen: home page.*
 
 "I'll use the sample from the task: HTTP Requests and Responses, with the objective 'Explain GET and POST methods and distinguish between 2xx, 4xx and 5xx response status categories.' I can set the audience and whether it's self-paced or taught in class, and paste sources I already trust. Down here it shows which model writes and which model reviews: the reviewer is a different model, so the check is independent of the author."
+
+*Click Check connections.*
+
+"Before spending anything, this sends one tiny real request to every service: both models, web search, YouTube, Wikipedia and the book catalogues. All green, with response times. If a key were wrong or a model had been retired, this row would say so, instead of the lesson failing five minutes in. If a model name has been retired, Lectern also finds the closest available model on its own and logs the switch."
 
 *Click Research and write lesson.*
 
@@ -72,4 +76,4 @@ Let me plant a mistake. I'll add 'POST requests are idempotent', save, and re-ch
 
 *Screen: README architecture or the decisions table.*
 
-"It's FastAPI and Pydantic on the back end: every model reply is validated against a schema. Evidence retrieval uses BM25, which is deterministic and easy to explain. The minutes, citations, quotes and coverage are all checked in code, and the language models are used only where judgement is needed. It works with Claude, OpenAI, Gemini or OpenRouter. The interface is React and TypeScript. For a curriculum team, the next step would be running this from their existing Markdown workflow and in batches for a whole module. Thank you."
+"It's FastAPI and Pydantic on the back end: every model reply is validated against a schema. Evidence retrieval uses BM25, which is deterministic and easy to explain. The minutes, citations, quotes and coverage are all checked in code, and the language models are used only where judgement is needed. It works with Claude, OpenAI, Gemini or OpenRouter. The interface is React and TypeScript. GitHub Actions runs the whole test suite, builds the interface and the Docker image on every push, and it can be hosted behind a passphrase with spend limits, so a shared link cannot run up the API bill. For a curriculum team, the next step would be running this from their existing Markdown workflow and in batches for a whole module. Thank you."
