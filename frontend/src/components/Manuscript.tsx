@@ -30,7 +30,8 @@ export function prepareMarkdown(body: string, flags: { id: string; text: string;
     if (at === -1) continue;
     out = `${out.slice(0, at)}[${flag.text}](#flag-${flag.id}${flag.high ? "-high" : ""})${out.slice(at + flag.text.length)}`;
   }
-  return out.replace(/\[(S\d+(?:\s*[,;]\s*S\d+)*)\](?!\()/g, (_, group: string) =>
+  // Citations sit directly against the word they support ("idempotent[S1].").
+  return out.replace(/[ \t]*\[(S\d+(?:\s*[,;]\s*S\d+)*)\](?!\()/g, (_, group: string) =>
     group.split(/[,;]/).map((id) => `[${id.trim()}](#cite-${id.trim()})`).join(""),
   );
 }
@@ -221,9 +222,12 @@ function CitationChip({ id, source, quote, onOpen }: { id: string; source?: Sour
   if (!source) return <span className="cite" title="This citation does not match any source">[{id}?]</span>;
   return (
     <span ref={ref} style={{ display: "inline" }} onMouseEnter={show} onMouseLeave={() => setOpen(false)}>
-      <button className="cite" onFocus={show} onBlur={() => setOpen(false)} onClick={onOpen} aria-label={`Source ${id}: ${source.title}`}>
+      {/* An inline link rather than a button: buttons are inline-blocks, which let the
+          line break between the citation and the full stop that follows it. */}
+      <a className="cite" href={`#ref-${id}`} onFocus={show} onBlur={() => setOpen(false)}
+        onClick={(e) => { e.preventDefault(); onOpen(); }} aria-label={`Source ${id}: ${source.title}`}>
         {id}
-      </button>
+      </a>
       {open && (
         <span className="cite-pop" role="tooltip" style={{ left: pos.left, top: pos.top, position: "absolute" }}>
           <strong>{source.title}</strong>

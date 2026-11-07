@@ -167,7 +167,7 @@ h1, h2, h3 { margin: 0; }
 .prose mark { background: var(--marker-soft); box-shadow: inset 0 -2px 0 var(--marker); padding: 0 1px; color: inherit; }
 .prose mark.flag-high { box-shadow: inset 0 -2px 0 var(--contradicted); background: #fbe9e7; }
 
-.cite { font-family: var(--sans); font-size: 11px; font-weight: 600; vertical-align: super; line-height: 0; text-decoration: none; color: var(--focus); padding: 0 1px; border: 0; background: none; cursor: pointer; }
+.cite { display: inline; font-family: var(--sans); font-size: 11px; font-weight: 600; vertical-align: super; line-height: 0; text-decoration: none; color: var(--focus); padding: 0 1px 0 2px; border: 0; background: none; cursor: pointer; }
 .cite:hover { text-decoration: underline; }
 .cite-pop { position: absolute; z-index: 40; width: 380px; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 8px 24px rgba(28, 37, 51, .16); padding: var(--s4); font: 13px/1.5 var(--sans); }
 .cite-pop .q { font-family: var(--serif); font-size: 15px; margin-top: var(--s2); color: #2c3747; }
@@ -325,3 +325,29 @@ h1, h2, h3 { margin: 0; }
   .page { padding: 32px 24px; }
   .margin-flag { left: auto; right: 0; top: 4px; }
 }
+
+/* --- Connections check ---------------------------------------------------- */
+.conn { border-top: 1px solid var(--rule-soft); padding-top: var(--s4); margin-top: var(--s2); }
+.conn-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s2); }
+.conn-head h2 { font: 600 13px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-muted); }
+.conn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.conn-list li { display: grid; grid-template-columns: 10px 150px 1fr auto; align-items: baseline; gap: var(--s3); padding: 6px 0; border-bottom: 1px solid var(--rule-soft); font-size: 13px; }
+.conn-list .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--supported); align-self: center; }
+.conn-list .warn .dot { background: var(--partial); }
+.conn-list .bad .dot { background: var(--contradicted); }
+.conn-list .n { font-weight: 600; }
+.conn-list .n small { display: block; font-weight: 400; color: var(--ink-faint); font-size: 11px; }
+.conn-list .d { color: var(--ink-muted); overflow-wrap: anywhere; }
+.conn-list .bad .d { color: var(--contradicted); }
+.conn-list .ms { font: 12px var(--mono); color: var(--ink-faint); }
+.conn-verdict { margin: var(--s3) 0 0; font-size: 13px; font-weight: 600; }
+.conn-verdict.ok { color: var(--supported); }
+.conn-verdict.bad { color: var(--contradicted); }
+
+/* --- Access gate ----------------------------------------------------------- */
+.gate { min-height: 100%; display: grid; place-items: center; padding: var(--s6); }
+.gate-card { width: min(420px, 100%); background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: var(--s6); display: grid; gap: var(--s3); }
+.gate-card h1 { font: 600 26px/1.2 var(--serif); margin-top: var(--s3); }
+.gate-card p { color: var(--ink-muted); margin: 0; }
+.gate-card .brand { display: flex; align-items: center; gap: 8px; font: 600 20px var(--serif); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

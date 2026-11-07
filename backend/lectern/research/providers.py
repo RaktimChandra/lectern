@@ -17,7 +17,7 @@ from urllib.parse import urlsplit
 import httpx
 import trafilatura
 
-USER_AGENT = "Lectern/1.0 (lesson research tool; local educational use)"
+USER_AGENT = "Lectern/1.1 (+https://github.com/RaktimChandra/lectern; educational lesson research)"
 MAX_TEXT_CHARS = 60_000
 
 

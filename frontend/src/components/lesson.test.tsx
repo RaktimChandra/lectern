@@ -5,12 +5,12 @@ import type { Lesson } from "../types";
 
 describe("prepareMarkdown", () => {
   it("turns grouped citations into one link per source", () => {
-    expect(prepareMarkdown("GET is safe [S1, S3].", [])).toBe("GET is safe [S1](#cite-S1)[S3](#cite-S3).");
+    expect(prepareMarkdown("GET is safe [S1, S3].", [])).toBe("GET is safe[S1](#cite-S1)[S3](#cite-S3).");
   });
 
   it("marks a flagged claim once and leaves unsafe text alone", () => {
     const out = prepareMarkdown("POST requests are idempotent [S1].", [{ id: "F1", text: "POST requests are idempotent", high: true }]);
-    expect(out).toBe("[POST requests are idempotent](#flag-F1-high) [S1](#cite-S1).");
+    expect(out).toBe("[POST requests are idempotent](#flag-F1-high)[S1](#cite-S1).");
     expect(prepareMarkdown("Use `curl` here.", [{ id: "F2", text: "Use `curl` here", high: false }])).toBe("Use `curl` here.");
   });
 });
