@@ -9,6 +9,6 @@ Both lessons were generated live with Gemini (writing and checking), Tavily web 
 
 Each folder holds what the **Export ZIP** button produces: `lesson.md`, `lesson.html` (print to PDF from a browser), `references.md`, both QC reports as Markdown and JSON, and `sources.json`.
 
-The HTTP lesson is at version 3. Version 2 was a test of the fact check: the sentence "POST requests are idempotent, so sending the same POST twice is always safe." was added to the GET/POST section and re-checked. QC 1 marked it **contradicted**, with two quotes it verified word for word in the sources (S11: "The POST method is not idempotent…" and S15, MDN's glossary). Version 3 restores version 1, and its report is the one exported here.
+The HTTP lesson is at version 3. Version 2 was a test of the fact check: the sentence "POST requests are idempotent, so sending the same POST twice is always safe." was added to the GET/POST section and re-checked. QC 1 marked it **contradicted**, with two quotes it verified word for word in the sources (S11: "The POST method is not idempotent…" and S15). Version 3 restores version 1, and its report is the one exported here.
 
 The partly supported and unsupported findings are left in the reports on purpose: they are what an instructor would review next, and they show the check does not simply approve the writer's work.
